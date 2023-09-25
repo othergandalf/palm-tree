@@ -3,3 +3,4 @@ seaborn
 pandas
 plotly.express
 sklearn
+scikit-learn
