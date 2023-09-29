@@ -2,7 +2,6 @@ streamlit
 seaborn
 pandas
 plotly.express
-sklearn
 scikit-learn
 geopandas
 Census
