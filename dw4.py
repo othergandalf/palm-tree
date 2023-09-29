@@ -6,6 +6,8 @@ from census import Census
 from us import states
 import os
 
+c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
+
 # MICHIGAN
 
 mi_census = c.acs5.state_county(fields = ('NAME',
