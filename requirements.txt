@@ -7,6 +7,5 @@ scikit-learn
 geopandas
 Census
 us
-os
 matplotlib
 matplotlib.pyplot
