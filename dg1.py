@@ -47,10 +47,10 @@ if model_choice == "Line":
 elif model_choice == "RBF-NN":
     st.subheader("Radial Basis Function Neural Network (RBF-NN)")
     # User input for RBF-NN
-    center1 = st.slider("Center 1:", min_value=-10.0, max_value=10.0, step=0.1, value=0.0)
-    center2 = st.slider("Center 2:", min_value=-10.0, max_value=10.0, step=0.1, value=0.0)
-    bandwidth = st.slider("Bandwidth (L):", min_value=0.01, max_value=10.0, step=0.01, value=1.0)
-    weights = st.slider("Weights:", min_value=0.1, max_value=10.0, step=0.1, value=1.0)
+    center1 = st.number_input("Center 1:")
+center2 = st.number_input("Center 2:")
+bandwidth = st.number_input("Bandwidth (L):")
+weights = st.number_input("Weights:")
     # Calculate RBF-NN predictions
     rbf_nn_predictions = weights * np.exp(-((selected_data[x_variable] - center1) ** 2) / (2 * bandwidth ** 2)) + \
                         weights * np.exp(-((selected_data[x_variable] - center2) ** 2) / (2 * bandwidth ** 2))
