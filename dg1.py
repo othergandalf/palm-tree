@@ -8,6 +8,9 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error
 custom_data = pd.DataFrame({'X': [0.5, 1], 'Y': [2, 1]})
 # Load Seaborn MPG dataset
 mpg_data = sns.load_dataset("mpg")
+mpg_data=mpg_data.dropna(); 
+ncols = df22.select_dtypes(include=[np.number]).columns
+mpg_data=mpg_data[ncols]
 # Title and dataset selection
 st.title("Regression Analysis App")
 dataset_choice = st.selectbox("Select a dataset:", ("Custom Dataset", "Seaborn MPG Dataset"))
