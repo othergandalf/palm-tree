@@ -9,7 +9,7 @@ custom_data = pd.DataFrame({'X': [0.5, 1], 'Y': [2, 1]})
 # Load Seaborn MPG dataset
 mpg_data = sns.load_dataset("mpg")
 mpg_data=mpg_data.dropna(); 
-ncols = df22.select_dtypes(include=[np.number]).columns
+ncols = mpg_data.select_dtypes(include=[np.number]).columns
 mpg_data=mpg_data[ncols]
 # Title and dataset selection
 st.title("Regression Analysis App")
