@@ -1,3 +1,10 @@
+#Ambar Rodriguez
+#Max Gregg
+#Arsh Ahtsham
+# Sardar Nafis Bin Ali
+
+
+
 import streamlit as st
 import numpy as np
 import pandas as pd
