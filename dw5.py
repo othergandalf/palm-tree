@@ -1,9 +1,10 @@
-import streamlit as st
+mport streamlit as st
 import pandas as pd
 import geopandas as gpd
-import contextily as ctx
+import folium
 from census import Census
 from us import states
+import streamlit_folium
 
 st.title('Michigan Commuting Data')
 
@@ -33,35 +34,30 @@ mi_df = pd.DataFrame(mi_census)
 # Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-
-# Print merged data columns
-print(merged_data.columns)
-
 # County selection
-selected_county = st.selectbox('Select County', mi_df['NAME'])
-
-# Print selected county name
-print(selected_county)
+selected_county = st.selectbox('Select County', ['All Counties'] + list(merged_data['NAME']))
 
 # Filter data based on county selection
-county_data = merged_data[merged_data['NAME'] == selected_county]
+if selected_county != 'All Counties':
+    county_data = merged_data[merged_data['NAME'] == selected_county]
+else:
+    county_data = merged_data
 
-# Display bar chart for the selected county
-st.bar_chart(county_data[columns_to_visualize])
+# Create a folium map centered around Michigan
+m = folium.Map(location=[44.5, -84], zoom_start=6)
 
-# Display map with the merged data and basemap
-with st.expander("Show Map"):
-    # Convert DataFrame to GeoDataFrame
-    county_data_gdf = gpd.GeoDataFrame(county_data, geometry='geometry')
+# Plotting counties on the map
+for idx, row in county_data.iterrows():
+    folium.GeoJson(row['geometry']).add_to(m)
 
-    # Set up basemap
-    basemap = ctx.providers.Stamen.TerrainBackground
+# Display the map using streamlit-folium
+st_folium_static = streamlit_folium.st_folium_static
+st_folium_static(m)
 
-    # Plot GeoDataFrame with basemap using contextily
-    ax = county_data_gdf.plot(figsize=(12, 12), alpha=0.7, cmap='coolwarm', legend=True)
-    ctx.add_basemap(ax, crs=county_data_gdf.crs, source=basemap)
+# Display additional information about the selected county
+if selected_county != 'All Counties':
+    st.write(f"Selected County: {selected_county}")
+    # Display other information about the selected county as needed
+    # ...
 
-    # Show legend
-    st.pyplot()
-
-# You can add more interactivity and visualization options as needed
+# Add other Streamlit components as necessary
