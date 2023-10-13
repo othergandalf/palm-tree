@@ -1,4 +1,4 @@
-imimport streamlit as st
+import streamlit as st
 import pandas as pd
 import json
 from census import Census
