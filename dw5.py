@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import geopandas as gpd
 import contextily as ctx
 from census import Census
 from us import states
