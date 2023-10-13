@@ -34,9 +34,6 @@ mi_df = pd.DataFrame(mi_census)
 #merge dfs
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-# Load your data and perform necessary operations
-# ...
-
 # pydeck
 deck_map = pdk.Deck(
     map_style="mapbox://styles/mapbox/light-v9",
@@ -52,8 +49,7 @@ deck_map = pdk.Deck(
 
 # basemap from ctx
 basemap = ctx.providers.CartoDB.PositronNoLabels  # You can choose a different basemap if you prefer
-deck_map = deck_map.to_pydeck()
-deck_map = deck_map.add_basemap(basemap)
+deck_map.add_basemap(basemap)
 
 # Display the map using Streamlit
 st.pydeck_chart(deck_map)
