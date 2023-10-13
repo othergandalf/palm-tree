@@ -33,11 +33,14 @@ mi_df = pd.DataFrame(mi_census)
 # Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='outer', left_on='COUNTYFP', right_on='county')
 
-# Select specific columns for visualization
-columns_to_visualize = ['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']
+# Print merged data columns
+print(merged_data.columns)
 
 # County selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
+
+# Print selected county name
+print(selected_county)
 
 # Filter data based on county selection
 county_data = merged_data[merged_data['NAME'] == selected_county]
