@@ -11,3 +11,4 @@ contextily
 pydeck
 folium 
 streamlit-folium
+json
