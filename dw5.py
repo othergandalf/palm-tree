@@ -35,32 +35,56 @@ mi_df = pd.DataFrame(mi_census)
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
 
-#contextily
-ctx.add_basemap(st.pydeck_chart(), crs="EPSG:3857")
-
-#pydeck
-deck_map = pdk.Deck(
-    map_style="mapbox://styles/mapbox/light-v9",
-    initial_view_state=pdk.ViewState(
-        latitude= 42.2,
-        longitude=84.4,
-        zoom=6,
-    ),
-    layers=[
-        # Add your data layers here if needed
-    ],
+# Assuming merged_data is your GeoDataFrame with census data merged
+# Create layers for each census variable
+layer_b08301_001E = pdk.Layer(
+    "ScatterplotLayer",
+    data=merged_data,
+    get_position=["longitude", "latitude"],
+    get_radius=1000,
+    get_fill_color="[B08301_001E, 0, B08301_001E]",
+    pickable=True,
+    auto_highlight=True,
+    extruded=True,
+    elevation_scale=0.1,
+    elevation_range=[0, 3000],
+    radius_scale=0.1,
+    radius_range=[0, 100],
+    tooltip="Population: {B08301_001E}",
 )
 
-# Add basemap (ctx)
-bmp = ctx.providers.CartoDB.PositronNoLabels  # You can choose a different basemap if you prefer
-deck_map = deck_map.to_pydeck()
-deck_map = deck_map.add_basemap(bmp)
+layer_b08301_002E = pdk.Layer(
+    "ScatterplotLayer",
+    data=merged_data,
+    get_position=["longitude", "latitude"],
+    get_radius=1000,
+    get_fill_color="[B08301_002E, 0, B08301_002E]",
+    pickable=True,
+    auto_highlight=True,
+    extruded=True,
+    elevation_scale=0.1,
+    elevation_range=[0, 3000],
+    radius_scale=0.1,
+    radius_range=[0, 100],
+    tooltip="Some Tooltip: {B08301_002E}",
+)
 
-# Display the map using Streamlit
-st.pydeck_chart(deck_map)
-# Replace YOUR_LATITUDE, YOUR_LONGITUDE, and YOUR_ZOOM_LEVEL with the appropriate values for your map's initial view state. Also, modify the layers parameter in the Deck() function to add any data layers you want to display on the map.
+# ... Create similar layers for other census variables ...
 
+# Define the map
+view_state = pdk.ViewState(
+    latitude=42.2459,
+    longitude=-84.4013,
+    zoom=YOUR_ZOOM_LEVEL,
+)
 
+r = pdk.Deck(
+    layers=[layer_b08301_001E, layer_b08301_002E],  # Add more layers if needed
+    initial_view_state=view_state,
+)
+
+# Render the map
+st.pydeck_chart(r)
 
 #county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
