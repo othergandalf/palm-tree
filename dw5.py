@@ -16,14 +16,7 @@ custom_css = f"""
 """
 st.markdown(custom_css, unsafe_allow_html=True)
 
-
-
-
-
-
-
-
-
+#api key
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
 mi_census = c.acs5.state_county(fields=('NAME',
