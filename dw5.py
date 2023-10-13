@@ -50,5 +50,5 @@ county_data = mi_df[mi_df['NAME'] == selected_county]
 st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
 # Display the map using Streamlit
-st.map(merged_data, use_container_width=True)
+st.map(merged_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']], use_container_width=True)
 
