@@ -3,6 +3,8 @@ import pandas as pd
 import geopandas as gpd
 import plotly.express as px
 import json
+from census import Census
+from us import states
 from urllib.request import urlopen
 
 st.title('Michigan Commuting Data')
