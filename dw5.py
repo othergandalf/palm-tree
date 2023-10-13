@@ -45,8 +45,8 @@ deck_map = pdk.Deck(
     layers=[
         # Add your data layers here if needed
     ],
+    basemap=basemap,
 )
-
 # basemap from ctx
 basemap = ctx.providers.CartoDB.PositronNoLabels  # You can choose a different basemap if you prefer
 deck_map.add_basemap(basemap)
