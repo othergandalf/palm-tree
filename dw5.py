@@ -31,7 +31,8 @@ mi_census = c.acs5.state_county(fields=('NAME',
 mi_df = pd.DataFrame(mi_census)
 
 # Merge DataFrames
-merged_data = michigan_counties.merge(mi_df, how='outer', left_on='COUNTYFP', right_on='county')
+merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
+
 
 # Print merged data columns
 print(merged_data.columns)
