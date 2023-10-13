@@ -35,7 +35,6 @@ merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', rig
 
 # Convert the 'geometry' column to a projected CRS (UTM Zone 16N)
 merged_data = merged_data.to_crs(epsg=32616)
-
 # Check if the 'NAME' column is present in merged_data
 if 'NAME' in merged_data.columns:
     county_selector = st.selectbox('Select County', ['All Counties'] + list(merged_data['NAME']))
@@ -59,12 +58,11 @@ fig = px.choropleth(filtered_data,
                     color_continuous_scale="Viridis",
                     labels={selected_variable: 'Variable'},
                     title=f'Choropleth Map of {selected_variable}',
-                    projection='mercator',
+                    projection='mercator',  # Specify the projection
                     hover_name='NAME_x')  # Use 'NAME_x' as the hover column
 
 # Display the map using Streamlit
 st.plotly_chart(fig, use_container_width=True)
-
 
 
 
