@@ -1,22 +1,16 @@
 import streamlit as st
 import pandas as pd
-import json
+import geopandas as gpd
+import plotly.express as px
 from census import Census
 from us import states
-from urllib.request import urlopen
-import plotly.express as px
 
 st.title('Michigan Commuting Data')
 
-# Load GeoJSON data containing Michigan counties
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties = json.load(response)
-
-# Filter GeoJSON data to only include Michigan counties
-michigan_counties_geojson = {
-    "type": "FeatureCollection",
-    "features": [county for county in counties["features"] if county["id"][:2] == "26"]  # "26" is the FIPS code for Michigan
-}
+# Import .shp file
+michigan_counties_url = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip"
+# Load the Shapefile directly from the .zip file
+michigan_counties = gpd.read_file(michigan_counties_url)
 
 # API key
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
@@ -36,18 +30,18 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-# Plotly Express choropleth map
-fig = px.choropleth(mi_df, 
-                    scope='usa',
-                    geojson=michigan_counties_geojson, 
-                    locations='county',
+# Merge DataFrames
+merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
+
+# Plotly Express map
+fig = px.choropleth(merged_data, 
+                    geojson=merged_data.geometry, 
+                    locations=merged_data.index, 
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
                     color_continuous_scale='Viridis',
                     labels={'B08301_001E': 'Commuting Data'},
                     title='Michigan Counties Commuting Data',
                     projection='mercator')
-fig.update_layout(mapbox_style="open-street-map")
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
 # Display the map using Streamlit
 st.plotly_chart(fig)
