@@ -9,7 +9,7 @@ st.title('Michigan Commuting Data')
 custom_css = f"""
     <style>
         body {{
-            background-color: #283747; /* Mute Dark Blue Color */
+            background-color: #283757; /* Mute Dark Blue Color */
             color: white; /* Text Color */
         }}
     </style>
