@@ -45,7 +45,7 @@ st.plotly_chart(fig)
 fig = px.choropleth(mi_df, 
                     scope = 'usa',
                     geojson=michigan_counties_geojson, 
-                    locations='GEOID'
+                    locations='GEOID',
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
                     color_continuous_scale='Viridis',
                     labels={'B08301_001E': 'Commuting Data'},
