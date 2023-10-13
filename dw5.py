@@ -39,7 +39,7 @@ selected_county = st.selectbox('Select County', ['All Counties'] + list(merged_d
 
 # Filter data based on county selection
 if selected_county != 'All Counties':
-    county_data = merged_data[merged_data['NAME'] == selected_county]
+    county_data = merged_data[merged_data['county'] == selected_county]
 else:
     county_data = merged_data
 
