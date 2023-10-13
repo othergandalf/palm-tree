@@ -1,11 +1,10 @@
 import streamlit as st
 import pandas as pd
-import geopandas as gpd
-import plotly.express as px
 import json
 from census import Census
 from us import states
 from urllib.request import urlopen
+import plotly.express as px
 
 st.title('Michigan Commuting Data')
 
@@ -37,13 +36,9 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-
-import plotly.express as px
-
-st.plotly_chart(fig)
 # Plotly Express choropleth map
 fig = px.choropleth(mi_df, 
-                    scope = 'usa',
+                    scope='usa',
                     geojson=michigan_counties_geojson, 
                     locations='GEOID',
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
@@ -55,5 +50,4 @@ fig.update_layout(mapbox_style="open-street-map")
 fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
 # Display the map using Streamlit
-
 st.plotly_chart(fig)
