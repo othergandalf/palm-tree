@@ -35,6 +35,10 @@ mi_df = pd.DataFrame(mi_census)
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
 
+# Extract lat and long from 'geometry' column
+merged_data['LAT'] = merged_data['geometry'].centroid.y
+merged_data['LON'] = merged_data['geometry'].centroid.x
+
 #basemap and pydeck
 basemap = "mapbox://styles/mapbox/light-v9"
 
@@ -65,6 +69,6 @@ county_data = mi_df[mi_df['NAME'] == selected_county]
 #bar chart for the selected county
 st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
-#map with the merged dfs
-st.map(merged_data)
+# Display the map using Streamlit with latitude and longitude columns
+st.map(merged_data, use_container_width=True, lat='LAT', lon='LON')
 
