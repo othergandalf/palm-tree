@@ -34,57 +34,38 @@ mi_df = pd.DataFrame(mi_census)
 #merge dfs
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-
-# Assuming merged_data is your GeoDataFrame with census data merged
-# Create layers for each census variable
+# Polygonal Layer
 layer_b08301_001E = pdk.Layer(
-    "ScatterplotLayer",
+    "PolygonLayer",
     data=merged_data,
-    get_position=["longitude", "latitude"],
-    get_radius=1000,
-    get_fill_color="[B08301_001E, 0, B08301_001E]",
+    get_polygon="geometry",
+    get_fill_color="[B08301_001E, 0, B08301_001E, 150]",
     pickable=True,
-    auto_highlight=True,
     extruded=True,
+    auto_highlight=True,
+    get_elevation="B08301_001E * 10",  # You can adjust the multiplier for elevation
     elevation_scale=0.1,
-    elevation_range=[0, 3000],
-    radius_scale=0.1,
-    radius_range=[0, 100],
-    tooltip="Population: {B08301_001E}",
 )
 
-layer_b08301_002E = pdk.Layer(
-    "ScatterplotLayer",
-    data=merged_data,
-    get_position=["longitude", "latitude"],
-    get_radius=1000,
-    get_fill_color="[B08301_002E, 0, B08301_002E]",
-    pickable=True,
-    auto_highlight=True,
-    extruded=True,
-    elevation_scale=0.1,
-    elevation_range=[0, 3000],
-    radius_scale=0.1,
-    radius_range=[0, 100],
-    tooltip="Some Tooltip: {B08301_002E}",
-)
-
-# ... Create similar layers for other census variables ...
-
-# Define the map
+# Deck.GL map
 view_state = pdk.ViewState(
-    latitude=42.2,
-    longitude=-84.2,
-    zoom=6,
+    latitude=42.2459,
+    longitude=-84.4013,
+    zoom=YOUR_ZOOM_LEVEL,  # Adjust this according to your visualization needs
+    bearing=0,
+    pitch=0,
 )
 
 r = pdk.Deck(
-    layers=[layer_b08301_001E, layer_b08301_002E],  # Add more layers if needed
+    layers=[layer_b08301_001E],
     initial_view_state=view_state,
 )
 
 # Render the map
 st.pydeck_chart(r)
+
+# ... Create similar layers for other census variables ...
+
 
 #county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
