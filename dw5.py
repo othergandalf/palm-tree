@@ -51,7 +51,7 @@ layer_b08301_001E = pdk.Layer(
 view_state = pdk.ViewState(
     latitude=42.2459,
     longitude=-84.4013,
-    zoom=YOUR_ZOOM_LEVEL,  # Adjust this according to your visualization needs
+    zoom=6,  # Adjust this according to your visualization needs
     bearing=0,
     pitch=0,
 )
