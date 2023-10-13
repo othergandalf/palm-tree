@@ -42,7 +42,7 @@ deck_map = pdk.Deck(
     map_style=basemap,
     initial_view_state=pdk.ViewState(
         latitude=45.4,
-        longitude=-82.2,
+        longitude=-84.2,
         zoom=5,
     ),
     layers=[
