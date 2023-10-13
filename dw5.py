@@ -1,18 +1,18 @@
-import streamlit as st
 import pandas as pd
 import geopandas as gpd
-import plotly.express as px
+import contextily as ctx
+import pydeck as pdk
 from census import Census
 from us import states
 
 st.title('Michigan Commuting Data')
 
-# Import .shp file
+#import .shp file
 michigan_counties_url = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip"
 # Load the Shapefile directly from the .zip file
 michigan_counties = gpd.read_file(michigan_counties_url)
 
-# API key
+#api key
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
 mi_census = c.acs5.state_county(fields=('NAME',
@@ -30,41 +30,47 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-# Merge DataFrames
+#merge dfs
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-# Convert the 'geometry' column to a projected CRS (UTM Zone 16N)
-merged_data = merged_data.to_crs(epsg=32616)
-# Check if the 'NAME' column is present in merged_data
-if 'NAME' in merged_data.columns:
-    county_selector = st.selectbox('Select County', ['All Counties'] + list(merged_data['NAME']))
-else:
-    county_selector = 'All Counties'
+# Load your data and perform necessary operations
+# ...
 
-# Filter data based on county selection
-if county_selector == 'All Counties':
-    filtered_data = merged_data
-else:
-    filtered_data = merged_data[merged_data['NAME'] == county_selector]
+# pydeck
+deck_map = pdk.Deck(
+    map_style="mapbox://styles/mapbox/light-v9",
+    initial_view_state=pdk.ViewState(
+        latitude=24.4,
+        longitude=-82.2,
+        zoom=6,
+    ),
+    layers=[
+        # Add your data layers here if needed
+    ],
+)
 
-# Variable selection
-selected_variable = st.selectbox('Select Variable', ['B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E'])
-
-# Plotly Choropleth Map
-fig = px.choropleth(filtered_data, 
-                    geojson=filtered_data.geometry, 
-                    locations=filtered_data.index, 
-                    color=selected_variable,
-                    color_continuous_scale="Viridis",
-                    labels={selected_variable: 'Variable'},
-                    title=f'Choropleth Map of {selected_variable}',
-                    projection='mercator',  # Specify the projection
-                    hover_name='NAME_x')  # Use 'NAME_x' as the hover column
+# basemap from ctx
+basemap = ctx.providers.CartoDB.PositronNoLabels  # You can choose a different basemap if you prefer
+deck_map = deck_map.to_pydeck()
+deck_map = deck_map.add_basemap(basemap)
 
 # Display the map using Streamlit
-st.plotly_chart(fig, use_container_width=True)
+st.pydeck_chart(deck_map)
+
+# ... Create similar layers for other census variables ...
 
 
+#county selection
+selected_county = st.selectbox('Select County', mi_df['NAME'])
+
+#Filter based on county
+county_data = mi_df[mi_df['NAME'] == selected_county]
+
+#bar chart for the selected county
+st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
+
+#map with the merged dfs
+st.map(merged_data)
 
 
 
