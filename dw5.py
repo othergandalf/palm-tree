@@ -37,15 +37,23 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
+
+import plotly.express as px
+
+st.plotly_chart(fig)
 # Plotly Express choropleth map
 fig = px.choropleth(mi_df, 
+                    scope = 'usa',
                     geojson=michigan_counties_geojson, 
-                    locations='county',  # Assuming your DataFrame has a 'county' column containing county FIPS codes
+                    locations='GEOID'
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
                     color_continuous_scale='Viridis',
                     labels={'B08301_001E': 'Commuting Data'},
                     title='Michigan Counties Commuting Data',
                     projection='mercator')
+fig.update_layout(mapbox_style="open-street-map")
+fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
 
 # Display the map using Streamlit
+
 st.plotly_chart(fig)
