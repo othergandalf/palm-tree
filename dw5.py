@@ -5,6 +5,25 @@ from us import states
 
 st.title('Michigan Commuting Data')
 
+#background color 
+custom_css = f"""
+    <style>
+        body {{
+            background-color: #283747; /* Mute Dark Blue Color */
+            color: white; /* Text Color */
+        }}
+    </style>
+"""
+st.markdown(custom_css, unsafe_allow_html=True)
+
+
+
+
+
+
+
+
+
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
 mi_census = c.acs5.state_county(fields=('NAME',
