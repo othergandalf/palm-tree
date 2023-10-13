@@ -35,7 +35,7 @@ mi_df = pd.DataFrame(mi_census)
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
 # County selection
-selected_county = st.selectbox('Select County', ['All Counties'] + list(merged_data['NAME']))
+selected_county = st.selectbox('Select County', ['All Counties'] + list(merged_data['county']))
 
 # Filter data based on county selection
 if selected_county != 'All Counties':
