@@ -9,3 +9,5 @@ us
 matplotlib
 contextily
 pydeck
+folium 
+streamlit-folium
