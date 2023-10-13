@@ -41,14 +41,6 @@ merged_data = merged_data.to_crs(epsg=32616)
 merged_data['LAT'] = merged_data['geometry'].centroid.y
 merged_data['LON'] = merged_data['geometry'].centroid.x
 
-#variable selection FOR BAR CHART
-selected_county = st.selectbox('Select County', mi_df['NAME'])
-
-#Filter based on county
-county_data = mi_df[mi_df['NAME'] == selected_county]
-
-#bar chart for the selected county
-st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
 # County selection FOR MAP
 selected_variable = st.selectbox('Select Variable', ['B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E'])
@@ -63,6 +55,4 @@ fig = px.choropleth(merged_data,
                     title=f'Choropleth Map of {selected_variable}',
                     projection='mercator')
 
-# Display the map using Streamlit
-st.plotly_chart(fig, use_container_width=True)
 
