@@ -8,8 +8,8 @@ from us import states
 st.title('Michigan Commuting Data')
 
 #import .shp file
-
-michigan_counties_url = "https://github.com/othergandalf/palm-tree/blob/main/tl_rd22_26_cousub.zip"
+michigan_counties_url = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip"
+# Load the Shapefile directly from the .zip file
 michigan_counties = gpd.read_file(michigan_counties_url)
 
 #api key
