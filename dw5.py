@@ -37,8 +37,8 @@ merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', rig
 merged_data = merged_data.to_crs(epsg=32616) 
 
 # Extract lat and long geometryco lumn after re-projection
- merged_data['LAT'] = merged_data['geometry'].centroid.y
- merged_data['LON'] = merged_data['geometry'].centroid.x
+merged_data['LAT'] = merged_data['geometry'].centroid.y
+merged_data['LON'] = merged_data['geometry'].centroid.x
 
 #county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
