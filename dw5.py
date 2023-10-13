@@ -2,18 +2,17 @@ import streamlit as st
 import pandas as pd
 import geopandas as gpd
 import contextily as ctx
-import pydeck as pdk
 from census import Census
 from us import states
 
 st.title('Michigan Commuting Data')
 
-#import .shp file
+# Import .shp file
 michigan_counties_url = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip"
 # Load the Shapefile directly from the .zip file
 michigan_counties = gpd.read_file(michigan_counties_url)
 
-#api key
+# API key
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
 mi_census = c.acs5.state_county(fields=('NAME',
@@ -31,39 +30,34 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-#merge dfs
+# Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
+# Select specific columns for visualization
+columns_to_visualize = ['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']
 
-#basemap and pydeck
-basemap = "mapbox://styles/mapbox/light-v9"
-
-deck_map = pdk.Deck(
-    map_style=basemap,
-    initial_view_state=pdk.ViewState(
-        latitude=45.4,
-        longitude=-82.2,
-        zoom=5,
-    ),
-    layers=[
-        # Add your data layers here if needed
-    ],
-)
-
-# Display the map using Streamlit
-st.pydeck_chart(deck_map)
-
-# ... Create similar layers for other census variables ...
-
-
-#county selection
+# County selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
-#Filter based on county
-county_data = mi_df[mi_df['NAME'] == selected_county]
+# Filter data based on county selection
+county_data = merged_data[merged_data['NAME'] == selected_county]
 
-#bar chart for the selected county
-st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
+# Display bar chart for the selected county
+st.bar_chart(county_data[columns_to_visualize])
 
-#map with the merged dfs
-st.map(merged_data)
+# Display map with the merged data and basemap
+with st.expander("Show Map"):
+    # Convert DataFrame to GeoDataFrame
+    county_data_gdf = gpd.GeoDataFrame(county_data, geometry='geometry')
+
+    # Set up basemap
+    basemap = ctx.providers.Stamen.TerrainBackground
+
+    # Plot GeoDataFrame with basemap using contextily
+    ax = county_data_gdf.plot(figsize=(12, 12), alpha=0.7, cmap='coolwarm', legend=True)
+    ctx.add_basemap(ax, crs=county_data_gdf.crs, source=basemap)
+
+    # Show legend
+    st.pyplot()
+
+# You can add more interactivity and visualization options as needed
