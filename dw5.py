@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import geopandas as gpd
-import plotly.express as px
+import contextily as ctx
 from census import Census
 from us import states
 
@@ -33,15 +33,31 @@ mi_df = pd.DataFrame(mi_census)
 # Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-# Plotly Express map
-fig = px.choropleth(merged_data, 
-                    geojson=merged_data.geometry, 
-                    locations=merged_data.index, 
-                    color='B08301_001E',  # Change this to the commuting data variable you want to visualize
-                    color_continuous_scale='Viridis',
-                    labels={'B08301_001E': 'Commuting Data'},
-                    title='Michigan Counties Commuting Data',
-                    projection='mercator')
+# Select specific columns for visualization
+columns_to_visualize = ['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']
 
-# Display the map using Streamlit
-st.plotly_chart(fig)
+# County selection
+selected_county = st.selectbox('Select County', mi_df['NAME'])
+
+# Filter data based on county selection
+county_data = merged_data[merged_data['NAME'] == selected_county]
+
+# Display bar chart for the selected county
+st.bar_chart(county_data[columns_to_visualize])
+
+# Display map with the merged data and basemap
+with st.expander("Show Map"):
+    # Convert DataFrame to GeoDataFrame
+    county_data_gdf = gpd.GeoDataFrame(county_data, geometry='geometry')
+
+    # Set up basemap
+    basemap = ctx.providers.Stamen.TerrainBackground
+
+    # Plot GeoDataFrame with basemap using contextily
+    ax = county_data_gdf.plot(figsize=(12, 12), alpha=0.7, cmap='coolwarm', legend=True)
+    ctx.add_basemap(ax, crs=county_data_gdf.crs, source=basemap)
+
+    # Show legend
+    st.pyplot()
+
+# You can add more interactivity and visualization options as needed
