@@ -1,6 +1,7 @@
 import streamlit as st
 import pandas as pd
 import geopandas as gpd
+import plotly.express as px
 from census import Census
 from us import states
 
@@ -32,4 +33,15 @@ mi_df = pd.DataFrame(mi_census)
 # Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
+# Plotly Express map
+fig = px.choropleth(merged_data, 
+                    geojson=merged_data.geometry, 
+                    locations=merged_data.index, 
+                    color='B08301_001E',  # Change this to the commuting data variable you want to visualize
+                    color_continuous_scale='Viridis',
+                    labels={'B08301_001E': 'Commuting Data'},
+                    title='Michigan Counties Commuting Data',
+                    projection='mercator')
 
+# Display the map using Streamlit
+st.plotly_chart(fig)
