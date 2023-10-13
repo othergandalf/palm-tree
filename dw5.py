@@ -41,9 +41,9 @@ basemap = "mapbox://styles/mapbox/light-v9"
 deck_map = pdk.Deck(
     map_style=basemap,
     initial_view_state=pdk.ViewState(
-        latitude=43.4,
+        latitude=45.4,
         longitude=-82.2,
-        zoom=6,
+        zoom=5,
     ),
     layers=[
         # Add your data layers here if needed
