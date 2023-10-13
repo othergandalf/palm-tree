@@ -1,10 +1,8 @@
 import streamlit as st
 import pandas as pd
 import geopandas as gpd
-import folium
 from census import Census
 from us import states
-import streamlit_folium
 
 st.title('Michigan Commuting Data')
 
@@ -34,14 +32,4 @@ mi_df = pd.DataFrame(mi_census)
 # Merge DataFrames
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-# County selection
-selected_county = st.selectbox('Select County', ['All Counties'] + list(merged_data['county']))
 
-# Filter data based on county selection
-if selected_county != 'All Counties':
-    county_data = merged_data[merged_data['county'] == selected_county]
-else:
-    county_data = merged_data
-
-# Display the selected data
-st.dataframe(county_data)
