@@ -34,30 +34,9 @@ mi_df = pd.DataFrame(mi_census)
 #merge dfs
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-
 # Extract lat and long from 'geometry' column
 merged_data['LAT'] = merged_data['geometry'].centroid.y
 merged_data['LON'] = merged_data['geometry'].centroid.x
-
-#basemap and pydeck
-basemap = "mapbox://styles/mapbox/light-v9"
-
-deck_map = pdk.Deck(
-    map_style=basemap,
-    initial_view_state=pdk.ViewState(
-        latitude=45.4,
-        longitude=-84.2,
-        zoom=5,
-    ),
-    layers=[
-        # Add your data layers here if needed
-    ],
-)
-
-# Display the map using Streamlit
-st.pydeck_chart(deck_map)
-
-# ... Create similar layers for other census variables ...
 
 
 #county selection
