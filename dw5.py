@@ -73,9 +73,9 @@ layer_b08301_002E = pdk.Layer(
 
 # Define the map
 view_state = pdk.ViewState(
-    latitude=42.2459,
-    longitude=-84.4013,
-    zoom=YOUR_ZOOM_LEVEL,
+    latitude=42.2,
+    longitude=-84.2,
+    zoom=6,
 )
 
 r = pdk.Deck(
