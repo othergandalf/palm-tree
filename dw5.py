@@ -9,7 +9,7 @@ st.title('Michigan Commuting Data')
 
 #import .shp file
 
-michigan_counties_url = "https://github.com/othergandalf/palm-tree/raw/main/Counties_(v17a).shp"
+michigan_counties_url = "https://raw.githubusercontent.com/othergandalf/palm-tree/raw/main/Counties_(v17a).shp"
 michigan_counties = gpd.read_file(michigan_counties_url)
 
 #api key
