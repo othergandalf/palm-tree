@@ -34,35 +34,29 @@ mi_df = pd.DataFrame(mi_census)
 #merge dfs
 merged_data = michigan_counties.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-# Polygonal Layer
-layer_b08301_001E = pdk.Layer(
-    "PolygonLayer",
-    data=merged_data,
-    get_polygon="geometry",
-    get_fill_color="[B08301_001E, 0, B08301_001E, 150]",
-    pickable=True,
-    extruded=True,
-    auto_highlight=True,
-    get_elevation="B08301_001E * 10",  # You can adjust the multiplier for elevation
-    elevation_scale=0.1,
+# Load your data and perform necessary operations
+# ...
+
+# pydeck
+deck_map = pdk.Deck(
+    map_style="mapbox://styles/mapbox/light-v9",
+    initial_view_state=pdk.ViewState(
+        latitude=24.4,
+        longitude=-82.2,
+        zoom=6,
+    ),
+    layers=[
+        # Add your data layers here if needed
+    ],
 )
 
-# Deck.GL map
-view_state = pdk.ViewState(
-    latitude=42.2459,
-    longitude=-84.4013,
-    zoom=6,  # Adjust this according to your visualization needs
-    bearing=0,
-    pitch=0,
-)
+# basemap from ctx
+basemap = ctx.providers.CartoDB.PositronNoLabels  # You can choose a different basemap if you prefer
+deck_map = deck_map.to_pydeck()
+deck_map = deck_map.add_basemap(basemap)
 
-r = pdk.Deck(
-    layers=[layer_b08301_001E],
-    initial_view_state=view_state,
-)
-
-# Render the map
-st.pydeck_chart(r)
+# Display the map using Streamlit
+st.pydeck_chart(deck_map)
 
 # ... Create similar layers for other census variables ...
 
