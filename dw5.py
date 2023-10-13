@@ -1,9 +1,15 @@
 import streamlit as st
 import pandas as pd
+import contextily as ctx
 from census import Census
 from us import states
 
 st.title('Michigan Commuting Data')
+
+#import .shp file
+
+michigan_counties_url = "https://github.com/othergandalf/palm-tree/blob/main/Counties_(v17a).shp"
+michigan_counties = gpd.read_file(michigan_counties_url)
 
 #api key
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
@@ -23,14 +29,22 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-# county selection
+#merge dfs
+merged_data = michigan_counties.merge(mi_df, how='left', left_on='FIPS', right_on='county_fips')
+
+
+#contextily
+ctx.add_basemap(st.pydeck_chart(), crs="EPSG:3857")
+
+#county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
-# Filter based on county
+#Filter based on county
 county_data = mi_df[mi_df['NAME'] == selected_county]
 
-# bar chart for the selected county
+#bar chart for the selected county
 st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
-
+#map with the merged dfs
+st.map(merged_data)
 
