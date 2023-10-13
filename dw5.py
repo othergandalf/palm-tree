@@ -64,7 +64,7 @@ fig = px.choropleth(filtered_data,
 
 # Display the map using Streamlit
 st.plotly_chart(fig, use_container_width=True)
-In this modified version, the hover_name parameter is set to 'NAME_x' to match the column name in the filtered_data DataFrame. Please ensure that 'NAME_x' contains the correct county names for the hover functionality to work as intended.
+
 
 
 
