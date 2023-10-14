@@ -55,7 +55,7 @@ chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number 
 )
 
 # Render the chart
-  st.altair_chart(chart)
+st.altair_chart(chart)
 
 
 
