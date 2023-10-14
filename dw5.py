@@ -62,7 +62,7 @@ shapefile_path = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN
 gdf = gpd.read_file(shapefile_path)
 
 # Merge census data with shapefile
-merged_df = gdf.merge(mi_df, how='left', left_on='county', right_on='COUNTYFP')
+merged_df = gdf.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
 st.text("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # Variable selection
