@@ -46,13 +46,11 @@ chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_0
 # Use altair for more customization
 chart = alt.Chart(chart_data.melt(var_name="Commuting Mode", value_name="Number of Commuters")).mark_bar().encode(
     x=alt.X("Commuting Mode:N", title="Commuting Mode"),  # Customize x-axis label
-    y=alt.Y("sum('Number of Commuters'):Q", title='Number of Commuters'),  # Customize y-axis label
-    color='Commuting Mode:N',
-    tooltip=['Commuting Mode:N', 'sum("Number of Commuters"):Q']
+    y=alt.Y("sum('Number of Commuters'):Q"),  # Customize y-axis label
+    color='Commuting Mode:N'
 ).properties(
     width=600,
-    height=400
-)
+    height=400) 
 
 # Render the chart
 st.altair_chart(chart)
