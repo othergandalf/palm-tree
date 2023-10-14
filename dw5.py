@@ -41,24 +41,16 @@ st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].valu
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
 st.write("### County's Distribution of Commuting")
+# Create a new DataFrame with renamed columns for visualization
 chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_011E", "B08301_012E", "B08301_013E", "B08301_014E"]]
-# new names
-chart_data["Commuting Mode"] = chart_data.columns
-chart_data["Commuting Mode"].replace({
-    "B08301_002E": "Driving Alone",
-    "B08301_003E": "Carpooling",
-    "B08301_008E": "Public Transportation",
-    "B08301_011E": "Walking",
-    "B08301_012E": "Cycling",
-    "B08301_013E": "Taxicab, Motorcycle, or Other Means",
-    "B08301_014E": "Worked from Home"
-}, inplace=True)
+chart_data.columns = ["Driving Alone", "Carpooling", "Public Transportation", "Walking", "Cycling", "Taxicab, Motorcycle, or Other Means", "Worked from Home"]
 
 # Use altair for more customization
-chart = alt.Chart(chart_data).mark_bar().encode(
-    x=alt.X("Commuting Mode:N", title="Commuting Mode"),  # x-axis label
-    y=alt.Y("mean(value):Q", title="Number of Commuters"),  # y-axis label
-    color='Commuting Mode:N'
+chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
+    x='Commuting Mode:N',
+    y='sum(`Number of Commuters`):Q',
+    color='Commuting Mode:N',
+    tooltip=['Commuting Mode:N', 'sum(`Number of Commuters`):Q']
 ).properties(
     width=600,
     height=400
@@ -66,8 +58,7 @@ chart = alt.Chart(chart_data).mark_bar().encode(
 
 # Render the chart
 st.altair_chart(chart)
-# Render the chart
-st.altair_chart(chart)
+
 
 
 
