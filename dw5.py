@@ -15,7 +15,7 @@ with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-c
 # Filter GeoJSON data to only include Michigan counties
 michigan_counties_geojson = {
     "type": "FeatureCollection",
-    "features": [county for county in counties_geojson["features"] if county["id"][:2] == "26"]  # "26" is the FIPS code for Michigan
+    "features": [county for county in counties_geojson["features"] if county["properties"]["COUNTY"] == "26"]  # "26" is the FIPS code for Michigan
 }
 
 # API key
@@ -37,18 +37,18 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 # Create DataFrame from Census data
 mi_df = pd.DataFrame(mi_census)
+mi_df.rename(columns={'county': 'COUNTY'}, inplace=True)  # Rename 'county' column to match GeoJSON
 
 # Create DataFrame from GeoJSON data
 geojson_df = pd.json_normalize(counties_geojson['features'])
-geojson_df['id'] = geojson_df['id'].astype(str)  # Convert id to string for consistency
 
-# Merge Census data and GeoJSON data on the 'id' column
-merged_data = pd.merge(geojson_df, mi_df, left_on='GEO_ID', right_on='GEOID')
+# Merge Census data and GeoJSON data on the 'COUNTY' column
+merged_data = pd.merge(geojson_df, mi_df, on='COUNTY')
 
 # Plotly Express choropleth map
 fig = px.choropleth(merged_data, 
-                    geojson=michigan_counties_geojson,
-                    locations='id',  # 'id' is the common column between GeoJSON and Census data
+                    geojson=michigan_counties_geojson, 
+                    locations=merged_data.index,  # Use index as locations
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
                     color_continuous_scale='Viridis',
                     labels={'B08301_001E': 'Commuting Data'},
