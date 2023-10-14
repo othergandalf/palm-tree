@@ -1,27 +1,11 @@
 import streamlit as st
 import pandas as pd
-import json
 from census import Census
 from us import states
-from urllib.request import urlopen
-import plotly.express as px
 
 st.title('Michigan Commuting Data')
 
-# Load GeoJSON data containing Michigan counties
-with urlopen('https://raw.githubusercontent.com/plotly/datasets/master/geojson-counties-fips.json') as response:
-    counties_geojson = json.load(response)
-
-# Filter GeoJSON data to only include Michigan counties
-michigan_counties_geojson = {
-    "type": "FeatureCollection",
-    "features": [county for county in counties_geojson["features"] if county["properties"]["COUNTY"] == "26"]  # "26" is the FIPS code for Michigan
-}
-
-# API key
-c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
-
-# Retrieve Census data
+c = Census("YOUR_API_KEY")
 mi_census = c.acs5.state_county(fields=('NAME',
                                         'B08301_001E',
                                         'B08301_002E',
@@ -35,28 +19,30 @@ mi_census = c.acs5.state_county(fields=('NAME',
                                county_fips="*",
                                year=2021)
 
-# Create DataFrame from Census data
 mi_df = pd.DataFrame(mi_census)
-mi_df.rename(columns={'county': 'COUNTY'}, inplace=True)  # Rename 'county' column to match GeoJSON
 
-# Create DataFrame from GeoJSON data
-geojson_df = pd.json_normalize(counties_geojson['features'])
+mi_df.head()
+# county selection
+selected_county = st.selectbox('Select County', mi_df['NAME'])
 
-# Merge Census data and GeoJSON data on the 'COUNTY' column
-merged_data = pd.merge(geojson_df, mi_df, on='COUNTY')
+# Filter based on county
+county_data = mi_df[mi_df['NAME'] == selected_county]
 
-# Plotly Express choropleth map
-fig = px.choropleth(merged_data, 
-                    geojson=michigan_counties_geojson, 
-                    locations=merged_data.index,  # Use index as locations
-                    color='B08301_001E',  # Change this to the commuting data variable you want to visualize
-                    color_continuous_scale='Viridis',
-                    labels={'B08301_001E': 'Commuting Data'},
-                    title='Michigan Counties Commuting Data',
-                    projection='mercator')
+# Display selected county data
+st.write(f"### Commuting Data for {selected_county}")
+st.write(f"Total Commuters: {county_data['B08301_001E'].values[0]}")
+st.write(f"Driving Alone: {county_data['B08301_002E'].values[0]}")
+st.write(f"Carpooling: {county_data['B08301_003E'].values[0]}")
+st.write(f"Public Transportation: {county_data['B08301_008E'].values[0]}")
+st.write(f"Walking: {county_data['B08301_011E'].values[0]}")
+st.write(f"Cycling: {county_data['B08301_012E'].values[0]}")
+st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].values[0]}")
+st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
-fig.update_layout(mapbox_style="open-street-map")
-fig.update_layout(margin={"r":0,"t":0,"l":0,"b":0})
+# bar chart for the selected county
+st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
-# Display the map using Streamlit
-st.plotly_chart(fig)
+# Optional: Display dataframe (for debugging purposes)
+# st.write("### Entire Dataframe")
+# st.write(mi_df)
+
