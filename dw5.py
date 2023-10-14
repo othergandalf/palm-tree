@@ -25,6 +25,8 @@ mi_df.head()
 # county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
+st.text("test")
+
 # Filter based on county
 county_data = mi_df[mi_df['NAME'] == selected_county]
 
