@@ -1,12 +1,11 @@
 import streamlit as st
 import pandas as pd
-import altair as alt
 from census import Census
 from us import states
 
 st.title('Michigan Commuting Data')
 
-c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
+c = Census("YOUR_API_KEY")
 mi_census = c.acs5.state_county(fields=('NAME',
                                         'B08301_001E',
                                         'B08301_002E',
@@ -22,6 +21,7 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
+mi_df.head()
 # county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
@@ -39,21 +39,8 @@ st.write(f"Cycling: {county_data['B08301_012E'].values[0]}")
 st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].values[0]}")
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
-st.write("### County's Distribution of Commuting")
-# Bar chart for the selected county with clean legend labels
-chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
-chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
-
-# Use altair for more customization
-chart = alt.Chart(chart_data).mark_bar().encode(
-    y='sum(Number_of_Commuters):Q',
-    color='Commuting_Mode:N'
-).properties(
-    width=600,
-    height=400)
-
-# Render the chart 
-st.altair_chart(chart)
+# bar chart for the selected county
+st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
 
 
