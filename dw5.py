@@ -49,9 +49,6 @@ chart_data.columns = ["Driving Alone", "Carpooling", "Public Transportation", "W
 chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
     color='Commuting Mode:N',
     tooltip=['Commuting Mode:N', 'sum(`Number of Commuters`):Q']
-).properties(
-    width=600,
-    height=400
 )
 
 # Render the chart
