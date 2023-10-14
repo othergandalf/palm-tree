@@ -73,7 +73,7 @@ fig = px.choropleth(merged_df,
                     geojson=merged_df.geometry, 
                     locations=merged_df.index, 
                     color=selected_variable,  # Variable selected by the user
-                    hover_name='NAME',
+                    hover_name=selected_variable,
                     color_continuous_scale='Viridis',
                     range_color=(0, merged_df[selected_variable].max()))  # Adjust the color scale based on the selected variable
 
