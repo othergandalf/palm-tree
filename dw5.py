@@ -22,7 +22,6 @@ mi_census = c.acs5.state_county(fields=('NAME',
 
 mi_df = pd.DataFrame(mi_census)
 
-mi_df.head()
 # county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
@@ -41,18 +40,14 @@ st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].valu
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
 st.write("### County's Distribution of Commuting")
-# Create a new DataFrame with renamed columns for visualization
-chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_011E", "B08301_012E", "B08301_013E", "B08301_014E"]]
-chart_data.columns = ["Driving_Alone", "Carpooling", "Public_Transportation", "Walking", "Cycling", "Other_Means", "Worked_from_Home"]
-
 # Bar chart for the selected county with clean legend labels
 chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
 chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
 # Use altair for more customization
-chart=alt.Chart(chart_data.mark_bar().encode(
-    y='sum(`Number of Commuters`):Q',
-    color='Commuting Mode:N'
+chart = alt.Chart(chart_data).mark_bar().encode(
+    y='sum(Number_of_Commuters):Q',
+    color='Commuting_Mode:N'
 ).properties(
     width=600,
     height=400)
