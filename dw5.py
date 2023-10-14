@@ -48,7 +48,7 @@ chart = alt.Chart(chart_data.melt(var_name="Commuting Mode", value_name="Number 
     x=alt.X("Commuting Mode:N", title="Commuting Mode"),  # Customize x-axis label
     y=alt.Y("sum('Number of Commuters'):Q", title='Number of Commuters'),  # Customize y-axis label
     color='Commuting Mode:N',
-    tooltip=['Commuting Mode:N', 'sum('Number of Commuters'):Q']
+    tooltip=['Commuting Mode:N', 'sum("Number of Commuters"):Q']
 ).properties(
     width=600,
     height=400
