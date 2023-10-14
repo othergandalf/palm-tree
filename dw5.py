@@ -42,15 +42,30 @@ st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
 st.write("### County's Distribution of Commuting")
 chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_011E", "B08301_012E", "B08301_013E", "B08301_014E"]]
+# new names
+chart_data["Commuting Mode"] = chart_data.columns
+chart_data["Commuting Mode"].replace({
+    "B08301_002E": "Driving Alone",
+    "B08301_003E": "Carpooling",
+    "B08301_008E": "Public Transportation",
+    "B08301_011E": "Walking",
+    "B08301_012E": "Cycling",
+    "B08301_013E": "Taxicab, Motorcycle, or Other Means",
+    "B08301_014E": "Worked from Home"
+}, inplace=True)
 
 # Use altair for more customization
-chart = alt.Chart(chart_data.mark_bar().encode(
-    x=alt.X("Commuting Mode:N", title="Commuting Mode"),  #  x-axis label
+chart = alt.Chart(chart_data).mark_bar().encode(
+    x=alt.X("Commuting Mode:N", title="Commuting Mode"),  # x-axis label
+    y=alt.Y("mean(value):Q", title="Number of Commuters"),  # y-axis label
     color='Commuting Mode:N'
 ).properties(
     width=600,
-    height=400) 
+    height=400
+)
 
+# Render the chart
+st.altair_chart(chart)
 # Render the chart
 st.altair_chart(chart)
 
