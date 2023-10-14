@@ -40,6 +40,8 @@ st.write(f"Cycling: {county_data['B08301_012E'].values[0]}")
 st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].values[0]}")
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
+# Your existing code for fetching and processing data remains the same
+
 # Bar chart for the selected county with clean legend labels
 st.write("### Commuting Modes Distribution")
 chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
@@ -49,18 +51,16 @@ chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'W
 chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
     x=alt.X('Commuting Mode:N', title='Commuting Mode'),
     y=alt.Y('sum(Number of Commuters):Q', title='Number of Commuters'),
-    color='Commuting Mode:N',
+    color=alt.Color('Commuting Mode:N', legend=None),
     tooltip=['Commuting Mode:N', 'sum(Number of Commuters):Q']
 ).properties(
     width=600,
     height=400
 )
 
-# Save the chart as a standalone HTML file
-chart_html = chart.save("chart.html")
+# Render the chart
+st.altair_chart(chart)
 
-# Display the chart in the Streamlit app
-st.components.v1.html(open("chart.html", 'r', encoding='utf-8').read(), width=700, height=500)
 
 
 
