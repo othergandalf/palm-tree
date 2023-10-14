@@ -45,12 +45,27 @@ st.write("### Commuting Modes Distribution")
 chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
 chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
-# Use altair for more customization
+import streamlit as st
+import pandas as pd
+import altair as alt
+from census import Census
+from us import states
+
+st.title('Michigan Commuting Data')
+
+# Your existing code for fetching and processing data remains the same
+
+# Bar chart for the selected county with clean legend labels
+st.write("### Commuting Modes Distribution")
+chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
+chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
+
+# altair
 chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
-    x='Commuting Mode:N',
-    y='sum("Number of Commuters"):Q',
-    color='Commuting Mode:N',
-    tooltip=['Commuting Mode:N', 'sum("Number of Commuters"):Q']
+    x=alt.X('Commuting Mode:N', title='Commuting Mode'),
+    y=alt.Y('sum(Number of Commuters):Q', title='Number of Commuters'),
+    color=alt.Color('Commuting Mode:N', legend=None),
+    tooltip=['Commuting Mode:N', 'sum(Number of Commuters):Q']
 ).properties(
     width=600,
     height=400
@@ -58,6 +73,7 @@ chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number 
 
 # Render the chart
 st.altair_chart(chart)
+
 
 
 
