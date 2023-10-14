@@ -55,9 +55,12 @@ chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number 
     width=600,
     height=400
 )
+# bar chart for the selected county
+st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
 
-# chart
-st.altair_chart(chart)
+# Optional: Display dataframe (for debugging purposes)
+# st.write("### Entire Dataframe")
+# st.write(mi_df
 
 
 
