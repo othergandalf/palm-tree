@@ -64,7 +64,7 @@ gdf = gpd.read_file(shapefile_path)
 # Merge census data with shapefile
 merged_df = gdf.merge(mi_df, how='left', left_on='county', right_on='COUNTYFP')
 
-
+st.text("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # Variable selection
 selected_variable = st.selectbox('Select Variable', ['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E'])
 
