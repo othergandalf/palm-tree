@@ -46,8 +46,8 @@ chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_0
 chart_data.columns = ["Driving_Alone", "Carpooling", "Public_Transportation", "Walking", "Cycling", "Other_Means", "Worked_from_Home"]
 
 chart = alt.Chart(chart_data.melt(var_name='Commuting_Mode', value_name='Number_of_Commuters')).mark_bar().encode(
-    x='Commuting_Mode:N',
-    y='sum(`Number_of_Commuters`):Q',
+    x=alt.Axis(labels=False, title=None),  # Remove X labels and title
+    y=alt.Axis(labels=False, title=None),  # Remove Y labels and title
     color='Commuting_Mode:N',
     tooltip=['Commuting_Mode:N', 'sum(`Number_of_Commuters`):Q']
 ).properties(
