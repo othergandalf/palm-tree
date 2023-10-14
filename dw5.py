@@ -28,7 +28,7 @@ mi_df.head()
 # county selection
 selected_county = st.selectbox('Select County', mi_df['NAME'])
 
-st.text("Select a MI county to see the mix of commuting types for that county.")
+st.markdown("Select a MI county to see the mix of commuting types for that county.")
 
 # Filter based on county
 county_data = mi_df[mi_df['NAME'] == selected_county]
@@ -64,7 +64,7 @@ gdf = gpd.read_file(shapefile_path)
 # Merge census data with shapefile
 merged_df = gdf.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
-st.text("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
+st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # Variable selection
 selected_variable = st.selectbox('Select Variable', ['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E'])
 
