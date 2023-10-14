@@ -46,13 +46,11 @@ chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_0
 chart_data.columns = ["Driving_Alone", "Carpooling", "Public_Transportation", "Walking", "Cycling", "Other_Means", "Worked_from_Home"]
 
 # Bar chart for the selected county with clean legend labels
-st.write("### Commuting Modes Distribution")
 chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
 chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
 # Use altair for more customization
 chart = alt.Chart(chart_data.melt.mark_bar().encode(
-    x='Commuting Mode:N',
     y='sum(`Number of Commuters`):Q',
     color='Commuting Mode:N'
 ).properties(
