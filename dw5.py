@@ -45,21 +45,6 @@ st.write("### Commuting Modes Distribution")
 chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
 chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
-import streamlit as st
-import pandas as pd
-import altair as alt
-from census import Census
-from us import states
-
-st.title('Michigan Commuting Data')
-
-# Your existing code for fetching and processing data remains the same
-
-# Bar chart for the selected county with clean legend labels
-st.write("### Commuting Modes Distribution")
-chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
-chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
-
 # Use Altair for more customization
 chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
     x=alt.X('Commuting Mode:N', title='Commuting Mode'),
