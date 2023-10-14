@@ -48,7 +48,6 @@ merged_data = pd.merge(geojson_df, mi_df, left_on='id', right_on='county')
 # Plotly Express choropleth map
 fig = px.choropleth(merged_data, 
                     geojson=michigan_counties_geojson,
-                    scope = "USA",
                     locations='id',  # 'id' is the common column between GeoJSON and Census data
                     color='B08301_001E',  # Change this to the commuting data variable you want to visualize
                     color_continuous_scale='Viridis',
