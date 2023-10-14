@@ -56,9 +56,11 @@ chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number 
     height=400
 )
 
-# Render the chart
-st.altair_chart(chart)
+# Save the chart as a standalone HTML file
+chart_html = chart.save("chart.html")
 
+# Display the chart in the Streamlit app
+st.components.v1.html(open("chart.html", 'r', encoding='utf-8').read(), width=700, height=500)
 
 
 
