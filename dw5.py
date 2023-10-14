@@ -51,11 +51,10 @@ chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_0
 chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
 # Use altair for more customization
-chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
+chart = alt.Chart(chart_data.melt.mark_bar().encode(
     x='Commuting Mode:N',
     y='sum(`Number of Commuters`):Q',
-    color='Commuting Mode:N',
-    tooltip=['Commuting Mode:N', 'sum(`Number of Commuters`):Q']
+    color='Commuting Mode:N'
 ).properties(
     width=600,
     height=400
