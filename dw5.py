@@ -55,10 +55,9 @@ chart = alt.Chart(chart_data.melt.mark_bar().encode(
     color='Commuting Mode:N'
 ).properties(
     width=600,
-    height=400
-)
+    height=400)
 
-# Render the chart
+# Render the chart 
 st.altair_chart(chart)
 
 
