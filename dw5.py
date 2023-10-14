@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import altair as alt
 from census import Census
 from us import states
 
@@ -39,10 +40,27 @@ st.write(f"Cycling: {county_data['B08301_012E'].values[0]}")
 st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].values[0]}")
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
-# bar chart for the selected county
-st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
+# Bar chart for the selected county with clean legend labels
+st.write("### Commuting Modes Distribution")
+chart_data = county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']]
+chart_data.columns = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Taxicab, Motorcycle, or Other Means', 'Worked from Home']
 
-# Optional: Display dataframe (for debugging purposes)
-# st.write("### Entire Dataframe")
-# st.write(mi_df)
+# altair
+chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
+    x='Commuting Mode:N',
+    y='sum(`Number of Commuters`):Q',
+    color='Commuting Mode:N',
+    tooltip=['Commuting Mode:N', 'sum(`Number of Commuters`):Q']
+).properties(
+    width=600,
+    height=400
+)
+
+# chart
+st.altair_chart(chart)
+
+
+
+
+
 
