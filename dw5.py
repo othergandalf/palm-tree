@@ -5,7 +5,7 @@ from us import states
 
 st.title('Michigan Commuting Data')
 
-c = Census("YOUR_API_KEY")
+c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 mi_census = c.acs5.state_county(fields=('NAME',
                                         'B08301_001E',
                                         'B08301_002E',
