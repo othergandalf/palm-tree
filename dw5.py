@@ -43,12 +43,13 @@ st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 st.write("### County's Distribution of Commuting")
 # Create a new DataFrame with renamed columns for visualization
 chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_011E", "B08301_012E", "B08301_013E", "B08301_014E"]]
-chart_data.columns = ["Driving Alone", "Carpooling", "Public Transportation", "Walking", "Cycling", "Taxicab, Motorcycle, or Other Means", "Worked from Home"]
+chart_data.columns = ["Driving_Alone", "Carpooling", "Public_Transportation", "Walking", "Cycling", "Other_Means", "Worked_from_Home"]
 
-# Use altair for more customization
-chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number of Commuters')).mark_bar().encode(
-    color='Commuting Mode:N',
-    tooltip=['Commuting Mode:N', 'sum(`Number of Commuters`):Q']
+chart = alt.Chart(chart_data.melt(var_name='Commuting_Mode', value_name='Number_of_Commuters')).mark_bar().encode(
+    x='Commuting_Mode:N',
+    y='sum(`Number_of_Commuters`):Q',
+    color='Commuting_Mode:N',
+    tooltip=['Commuting_Mode:N', 'sum(`Number_of_Commuters`):Q']
 ).properties(
     width=600,
     height=400
