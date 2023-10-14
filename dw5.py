@@ -52,9 +52,10 @@ chart = alt.Chart(chart_data.melt(var_name='Commuting Mode', value_name='Number 
 ).properties(
     width=600,
     height=400
+)
 
 # Render the chart
-st.altair_chart(chart)
+  st.altair_chart(chart)
 
 
 
