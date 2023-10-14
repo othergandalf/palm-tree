@@ -40,13 +40,22 @@ st.write(f"Cycling: {county_data['B08301_012E'].values[0]}")
 st.write(f"Taxicab, Motorcycle, or Other Means: {county_data['B08301_013E'].values[0]}")
 st.write(f"Worked from Home: {county_data['B08301_014E'].values[0]}")
 
-# bar chart for the selected county
-st.bar_chart(county_data[['B08301_002E', 'B08301_003E', 'B08301_008E', 'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E']])
+st.write("### Commuting Modes Distribution")
+chart_data = county_data[["B08301_002E", "B08301_003E", "B08301_008E", "B08301_011E", "B08301_012E", "B08301_013E", "B08301_014E"]]
 
-# Optional: Display dataframe (for debugging purposes)
-# st.write("### Entire Dataframe")
-# st.write(mi_df)
+# Use altair for more customization
+chart = alt.Chart(chart_data.melt(var_name="Commuting Mode", value_name="Number of Commuters")).mark_bar().encode(
+    x=alt.X("Commuting Mode:N", title="Commuting Mode"),  # Customize x-axis label
+    y=alt.Y("sum('Number of Commuters'):Q", title='Number of Commuters'),  # Customize y-axis label
+    color='Commuting Mode:N',
+    tooltip=['Commuting Mode:N', 'sum('Number of Commuters'):Q']
+).properties(
+    width=600,
+    height=400
+)
 
+# Render the chart
+st.altair_chart(chart)
 
 
 
