@@ -43,7 +43,7 @@ geojson_df = pd.json_normalize(counties_geojson['features'])
 geojson_df['id'] = geojson_df['id'].astype(str)  # Convert id to string for consistency
 
 # Merge Census data and GeoJSON data on the 'id' column
-merged_data = pd.merge(geojson_df, mi_df, left_on='id', right_on='GEO_ID')
+merged_data = pd.merge(geojson_df, mi_df, left_on='id', right_on='county')
 
 # Plotly Express choropleth map
 fig = px.choropleth(merged_data, 
