@@ -26,7 +26,7 @@ mi_df = pd.DataFrame(mi_census)
 
 mi_df.head()
 # BOX 1
-selected_county = st.selectbox('Select County', mi_df['NAME'])
+selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
 st.markdown("Select a MI county to see the mix of commuting types for that county.")
 
@@ -48,10 +48,10 @@ variable_names = {
 clean_data = county_data.rename(columns=variable_names)
 
 # TEXT DISPLAY BOXES OF COUNTY SELECTED
-st.write(f"### Commuting Data for {selected_county}")
-st.write(f"Total Commuters: {county_data['B08301_001E'].values[0]}")
+st.sidebar.write(f"### Commuting Data for {selected_county}")
+st.sidebar.write(f"Total Commuters: {county_data['B08301_001E'].values[0]}")
 for variable, name in variable_names.items():
-    st.write(f"{name}: {county_data[variable].values[0]}")
+    st.sidebar.write(f"{name}: {county_data[variable].values[0]}")
 
 # BAR CHART
 st.bar_chart(clean_data[['Driving Alone',
@@ -71,7 +71,7 @@ merged_df = gdf.merge(mi_df, how='left', left_on='COUNTYFP', right_on='county')
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
-selected_variable = st.selectbox('Select Variable', ['B08301_002E',
+selected_variable = st.sidebar.selectbox('Select Variable', ['B08301_002E',
                                                      'B08301_003E',
                                                      'B08301_008E', 
                                                      'B08301_011E',
