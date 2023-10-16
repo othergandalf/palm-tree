@@ -21,6 +21,12 @@ mi_census = c.acs5.state_county(fields=('NAME',
                                state_fips=states.MI.fips,
                                county_fips="*",
                                year=2021)
+# B01003_001E: total population
+# B19101_001E: median income
+# B17001_002E: poverty count 
+# poverty_rate = (poverty_count / total_population) * 100
+#will come to back to these variables once the mapping issue has been solved.
+
 #DF 
 mi_df = pd.DataFrame(mi_census)
 
@@ -85,7 +91,7 @@ fig = px.choropleth(merged_df,
                     locations=merged_df.index, 
                     color=selected_variable,  # Variable selected by the user
                     hover_name=selected_variable,
-                    color_continuous_scale='Viridis',
+                    color_continuous_scale='Viridis', # how basic, I know, but Viridis is great~
                     range_color=(0, merged_df[selected_variable].max()))  # Adjust the color scale based on the selected variable
 
 st.plotly_chart(fig)
