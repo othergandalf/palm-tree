@@ -69,7 +69,9 @@ st.bar_chart(clean_data[['Driving Alone',
 
 #                   -  PLOTLY  -
 # CENSUS SHAPEFILE
-shapefile_path = "https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip"
+# GEOJSON:https://github.com/othergandalf/palm-tree/blob/main/Counties_(v17a).geojson
+# TIGER: https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip
+shapefile_path = "https://github.com/othergandalf/palm-tree/blob/main/Counties_(v17a).geojson"
 gdf = gpd.read_file(shapefile_path)
 
 # MERGE
