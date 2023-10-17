@@ -93,7 +93,7 @@ selected_variable = st.sidebar.selectbox('Select Variable', ['B08301_002E',
 st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
-        latitude=45.59,
+        latitude=44.89,
         longitude=-84.76,
         zoom=5,
         pitch=0,
