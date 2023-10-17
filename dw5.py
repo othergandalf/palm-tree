@@ -86,13 +86,13 @@ selected_variable = st.sidebar.selectbox('Select Variable', ['B08301_002E',
                                                      'B08301_012E', 
                                                      'B08301_013E', 
                                                      'B08301_014E'])
-
-# CHLOROPLETH PX MAP 
+# 43.5978° N, 84.7675° W
+# PYDECK MAP 
 st.pydeck_chart(pdk.Deck(
     map_style=None,
     initial_view_state=pdk.ViewState(
-        latitude=37.76,
-        longitude=-122.4,
+        latitude=-84.7,
+        longitude=43.5978,
         zoom=11,
         pitch=50,
     ) #,
