@@ -88,15 +88,15 @@ selected_variable = st.sidebar.selectbox('Select Variable', ['B08301_002E',
                                                      'B08301_014E'])
 
 # CHLOROPLETH PX MAP 
-fig = px.choropleth(merged_df, 
-                    geojson=merged_df.geometry, 
-                    locations=merged_df.index, 
-                    color=selected_variable,  # Variable selected by the user
-                    hover_name=selected_variable,
-                    color_continuous_scale='Viridis', # how basic, I know, but Viridis is great~
-                    range_color=(0, merged_df[selected_variable].max()))  # Adjust the color scale based on the selected variable
-
-st.plotly_chart(fig)
+st.pydeck_chart(pdk.Deck(
+    map_style=None,
+    initial_view_state=pdk.ViewState(
+        latitude=37.76,
+        longitude=-122.4,
+        zoom=11,
+        pitch=50,
+    ) #,
+) ) 
 
 
 
