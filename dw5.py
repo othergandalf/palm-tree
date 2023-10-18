@@ -37,7 +37,7 @@ selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
 st.header('Select a :blue[county]')
 
-st.markdown("Select a MI county to see the mix of commuting types for that county.")
+st.markdown("Select a Michigan county to see the mix of commuting types for that county. Discover which counties have a more diverse commuting types. Not familiar with Michigan? Try Wayne (Detroit), Ingham (Lansing), or Grand Traverse (Traverse City) counties.")
 
 # SELECT BOX 1
 county_data = mi_df[mi_df['NAME'] == selected_county]
@@ -92,7 +92,7 @@ merged_df.rename(columns = {
     'B08301_014E': 'Worked from Home'
 }, inplace = True )
 st.header('Select a :blue[commuting type]')
-st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
+st.markdown("Below is an interactive map of a commuting type, and the counties that effects. See which counties are dependent on driving, or which regions are devoid of walkers. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
 selected_variable = st.sidebar.selectbox('Select Variable', ['Driving Alone',
                                                      'Carpooling',
