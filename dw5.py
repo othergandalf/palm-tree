@@ -35,7 +35,6 @@ mi_df.head()
 # BOX 1
 selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
-st.header('This is a header with a divider', divider='rainbow')
 st.header('Select a :blue[county]')
 
 st.markdown("Select a MI county to see the mix of commuting types for that county.")
@@ -115,8 +114,12 @@ st.pydeck_chart(pdk.Deck(
       pdk.Layer(
             "GeoJsonLayer",
             data=merged_df,
-            get_fill_color=f"[224, 211, 255, {selected_variable} * 0.1]",
+            get_fill_color=f"[65, 140, 165, {selected_variable} * 0.1]",
             pickable=True
     ) ]  ) )
 
 st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
+
+
+
+st.header('made by Max G.', divider='rainbow')
