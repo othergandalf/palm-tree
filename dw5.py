@@ -37,7 +37,9 @@ selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
 st.header('Select a :blue[county]')
 
-st.markdown("Select a Michigan county to see the mix of commuting types for that county. Discover which counties have a more diverse commuting types. Not familiar with Michigan? Try Wayne (Detroit), Ingham (Lansing), or Grand Traverse (Traverse City) counties.")
+st.markdown("Select a Michigan county to see the mix of commuting types for that county. Discover which counties have a more diverse commuting types.")
+st.subheader("Not familiar with Michigan?") 
+st.markdown("Try Wayne (Detroit), Ingham (Lansing), or Grand Traverse (Traverse City) counties.")
 
 # SELECT BOX 1
 county_data = mi_df[mi_df['NAME'] == selected_county]
