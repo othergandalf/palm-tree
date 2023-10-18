@@ -91,7 +91,7 @@ variable_names = {
 }
 
 # NEW DF
-merged_clean = merged_df.rename(columns=variable_names)
+merged_clean = merged_df.rename(columns=variable_names, inplace = True)
 
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
