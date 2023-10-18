@@ -103,4 +103,4 @@ st.pydeck_chart(pdk.Deck(
             data=clean_data,
             get_fill_color=f"[255, 255, 255, {selected_variable} * 0.1]",
             pickable=True
-    ) ]  
+    ) ]  ) )
