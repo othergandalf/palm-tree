@@ -101,12 +101,4 @@ st.pydeck_chart(pdk.Deck(
             "GeoJsonLayer",
             data=clean_data,
             get_fill_color=f"[255, 255, 255, {selected_variable} * 0.1]",
-            pickable=True
-)  
-
-
-
-
-
-
-
+            pickable=True)  
