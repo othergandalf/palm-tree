@@ -83,13 +83,13 @@ merged_df = gdf.merge(clean_data, how='left', left_on='FIPSCODE', right_on='coun
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
-selected_variable = st.sidebar.selectbox('Select Variable', ['B08301_002E',
-                                                     'B08301_003E',
-                                                     'B08301_008E', 
-                                                     'B08301_011E',
-                                                     'B08301_012E', 
-                                                     'B08301_013E', 
-                                                     'B08301_014E'])
+selected_variable = st.sidebar.selectbox('Select Variable', ['Driving Alone',
+                                                     'Carpooling',
+                                                     'Public Transportation', 
+                                                     'Walking',
+                                                     'Cycling', 
+                                                     'Other Means', 
+                                                     'Worked from Home'])
 # 43.5978° N, 84.7675° W
 # PYDECK MAP 
 st.pydeck_chart(pdk.Deck(
@@ -106,3 +106,5 @@ st.pydeck_chart(pdk.Deck(
             get_fill_color=f"[224, 255, 255, {selected_variable} * 0.1]",
             pickable=True
     ) ]  ) )
+
+st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
