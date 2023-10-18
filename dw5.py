@@ -97,7 +97,8 @@ st.pydeck_chart(pdk.Deck(
         longitude=-84.76,
         zoom=5,
         pitch=0,
-    ), layers = [pdk.Layer(data = clean_data)]
+    ), layers = [pdk.Layer("PolygonLayer"),
+      data = clean_data)]
 ) ) 
 
 
