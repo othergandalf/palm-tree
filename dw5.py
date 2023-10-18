@@ -78,9 +78,9 @@ gdf = gpd.read_file(shp)
 
 # MERGE
 merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
-
+# country_df.rename(columns={"GDP": "gdp"})
 # NEW CLEAN NAMES
-variable_names = {
+merged_df.rename(columns = {
     'B08301_002E': 'Driving Alone',
     'B08301_003E': 'Carpooling',
     'B08301_008E': 'Public Transportation',
@@ -88,11 +88,7 @@ variable_names = {
     'B08301_012E': 'Cycling',
     'B08301_013E': 'Other Means',
     'B08301_014E': 'Worked from Home'
-}
-
-# NEW DF
-merged_clean = merged_df.rename(columns=variable_names, inplace = True)
-
+} )
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
@@ -115,8 +111,8 @@ st.pydeck_chart(pdk.Deck(
     ),  layers = [
       pdk.Layer(
             "GeoJsonLayer",
-            data=merged_clean,
-            get_fill_color=f"[224, 255, 255, {selected_variable} * 0.1]",
+            data=merged_df,
+            get_fill_color=f"[224, 211, 255, {selected_variable} * 0.1]",
             pickable=True
     ) ]  ) )
 
