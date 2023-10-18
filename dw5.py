@@ -123,3 +123,5 @@ st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
 
 
 st.header('made by Max G.', divider='rainbow')
+
+st.markdown("Original source can be directly traced through [the Census API ACS 1-Year Estimates.](%s)" % https://api.census.gov/data/2019/acs/acs5/variables.html)
