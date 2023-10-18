@@ -79,7 +79,7 @@ gdf = gpd.read_file(shapefile_path)
 # MERGE
 merged_df = gdf.merge(clean_data, how='left', left_on='FIPSCODE', right_on='county')
 
-}
+
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
