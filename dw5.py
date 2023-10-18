@@ -97,8 +97,11 @@ st.pydeck_chart(pdk.Deck(
         longitude=-84.76,
         zoom=5,
         pitch=0,
-    ), layers = [pdk.Layer("PolygonLayer"),
-      data = clean_data)]
+    ),  pdk.Layer(
+            "GeoJsonLayer",
+            data=clean_data,
+            get_fill_color=f"[255, 255, 255, {selected_variable} * 0.1]",
+            pickable=True,
 ) ) 
 
 
