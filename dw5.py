@@ -88,7 +88,7 @@ merged_df.rename(columns = {
     'B08301_012E': 'Cycling',
     'B08301_013E': 'Other Means',
     'B08301_014E': 'Worked from Home'
-} )
+}, inplace = True )
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
