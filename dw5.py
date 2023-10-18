@@ -35,6 +35,9 @@ mi_df.head()
 # BOX 1
 selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
+st.header('This is a header with a divider', divider='rainbow')
+st.header('Select a :blue[county]')
+
 st.markdown("Select a MI county to see the mix of commuting types for that county.")
 
 # SELECT BOX 1
@@ -89,7 +92,7 @@ merged_df.rename(columns = {
     'B08301_013E': 'Other Means',
     'B08301_014E': 'Worked from Home'
 }, inplace = True )
-
+st.header('Select a :blue[commuting type]')
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
 selected_variable = st.sidebar.selectbox('Select Variable', ['Driving Alone',
