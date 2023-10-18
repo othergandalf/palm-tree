@@ -101,6 +101,6 @@ st.pydeck_chart(pdk.Deck(
       pdk.Layer(
             "GeoJsonLayer",
             data=merged_df,
-            get_fill_color=f"[255, 255, 255, {selected_variable} * 0.1]",
+            get_fill_color=f"[224, 255, 255, {selected_variable} * 0.1]",
             pickable=True
     ) ]  ) )
