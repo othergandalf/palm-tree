@@ -72,13 +72,26 @@ st.bar_chart(clean_data[['Driving Alone',
 # SHAPEFILE
 # GEOJSON:https://github.com/othergandalf/palm-tree/blob/main/Counties_(v17a).geojson
 # TIGER: https://www2.census.gov/geo/tiger/TIGER_RD18/STATE/26_MICHIGAN/26/tl_rd22_26_cousub.zip
-shapefile_path = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
+shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
 
-gdf = gpd.read_file(shapefile_path)
+gdf = gpd.read_file(shp)
 
 # MERGE
-merged_df = gdf.merge(clean_data, how='left', left_on='FIPSCODE', right_on='county')
+merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
 
+# NEW CLEAN NAMES
+variable_names = {
+    'B08301_002E': 'Driving Alone',
+    'B08301_003E': 'Carpooling',
+    'B08301_008E': 'Public Transportation',
+    'B08301_011E': 'Walking',
+    'B08301_012E': 'Cycling',
+    'B08301_013E': 'Other Means',
+    'B08301_014E': 'Worked from Home'
+}
+
+# NEW DF
+merged_clean = merged_df.rename(columns=variable_names)
 
 
 st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
@@ -102,7 +115,7 @@ st.pydeck_chart(pdk.Deck(
     ),  layers = [
       pdk.Layer(
             "GeoJsonLayer",
-            data=merged_df,
+            data=merged_clean,
             get_fill_color=f"[224, 255, 255, {selected_variable} * 0.1]",
             pickable=True
     ) ]  ) )
