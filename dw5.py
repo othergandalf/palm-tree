@@ -117,7 +117,10 @@ st.pydeck_chart(pdk.Deck(
             "GeoJsonLayer",
             data=merged_df,
             get_fill_color=f"[100, 190, 245, {selected_variable} * 0.1]",
-            pickable=True
+            pickable=True, # /
+         auto_highlight=True,  # Highlight the selected data
+            on_hover=True,  # Enable hover events
+            tooltip={"text": "{NAME}\n{value}".format(NAME="{NAME}", value="{" + selected_variable + "}")} #/ 
     ) ]  ) )
 
 st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
