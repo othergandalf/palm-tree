@@ -69,12 +69,15 @@ st.pydeck_chart(pdk.Deck(
         zoom=6,
         pitch=0,
     ),
-    layers=[
+   layers=[
         pdk.Layer(
             "GeoJsonLayer",
             data=clean_data,
             get_fill_color=f"[255, 255, 255, {selected_variable} * 0.1]",
             pickable=True,
+            auto_highlight=True,  # Highlight the selected data
+            on_hover=True,  # Enable hover events
+            tooltip={"text": "{NAME}\n{value}".format(NAME="{NAME}", value="{" + selected_variable + "}")}
         )
     ]
 ))
