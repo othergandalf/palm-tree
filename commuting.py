@@ -1,5 +1,5 @@
 def show():
-[theme]
+  [theme]
 base="dark"
 primaryColor="green"
 import streamlit as st
