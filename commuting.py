@@ -37,7 +37,9 @@ selected_county = st.sidebar.selectbox('Select County', mi_df['NAME'])
 
 st.header('Select a :blue[county]')
 
-st.markdown("Select a MI county to see the mix of commuting types for that county.")
+st.markdown("The left side bar selects a Michigan county. See the mix of commuting types for that county.")
+st.subheader("Not familiar with Michigan?") 
+st.markdown("Try :blue[Wayne] (Detroit), :blue[Ingham] (Lansing), or :blue[Grand Traverse] (Traverse City) counties.")
 
 # SELECT BOX 1
 county_data = mi_df[mi_df['NAME'] == selected_county]
@@ -92,7 +94,7 @@ merged_df.rename(columns = {
     'B08301_014E': 'Worked from Home'
 }, inplace = True )
 st.header('Select a :blue[commuting type]')
-st.markdown("Below is an interactive map of a commuting type, and the counties that effects. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
+st.markdown("Below is an interactive map of a commuting type, and the counties that effects. See which counties are dependent on driving, or which regions are devoid of walkers. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
 # SELECT BOX 2
 selected_variable = st.sidebar.selectbox('Select Variable', ['Driving Alone',
                                                      'Carpooling',
@@ -115,7 +117,10 @@ st.pydeck_chart(pdk.Deck(
             "GeoJsonLayer",
             data=merged_df,
             get_fill_color=f"[100, 190, 245, {selected_variable} * 0.1]",
-            pickable=True
+            pickable=True, # /
+         auto_highlight=True,  # Highlight the selected data
+            on_hover=True,  # Enable hover events
+            tooltip={"text": "{NAME}\n{value}".format(NAME="{NAME}", value="{" + selected_variable + "}")} #/ 
     ) ]  ) )
 
 st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
@@ -123,3 +128,6 @@ st.markdown("Other Means: Includes Motorcycles and Taxicabs.")
 
 
 st.header('made by Max G.', divider='rainbow')
+
+url = "https://api.census.gov/data/2019/acs/acs5/variables.html"
+st.markdown("Original source can be directly traced through [the Census API ACS 1-Year Estimates.](%s)" % url)
