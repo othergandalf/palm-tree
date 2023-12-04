@@ -8,6 +8,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 
 def show(): 
+    st.title("Test")
     # Fetch census data
     def fetch_census_data(api_key, state_code, county_code):
         c = Census(api_key)
