@@ -29,8 +29,6 @@ def show():
     # B01003_001E: total population
     # B19101_001E: median income
     # B17001_002E: poverty count 
-     poverty_rate = (poverty_count / total_population) * 100
-    #will come to back to these variables once the mapping issue has been solved.
 
     #DF 
     mi_df = pd.DataFrame(mi_census)
@@ -62,7 +60,7 @@ data['poverty_rate'] = (data['poverty_count'] / data['total_population']) * 100
         'B08301_013E': 'Other Means',
         'B08301_014E': 'Worked from Home'
     }
-
+poverty_rate = (poverty_count / total_population) * 100
     # NEW DF
     clean_data = county_data.rename(columns=variable_names)
 
