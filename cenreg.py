@@ -39,9 +39,9 @@ def show():
     ## KNN MODEL BEGINS HERE
     
     data['poverty_count'] = data['B17001_002E']
-data['total_population'] = data['B01003_001E']
-data['median_income'] = data['B19101_001E']
-data['poverty_rate'] = (data['poverty_count'] / data['total_population']) * 100
+    data['total_population'] = data['B01003_001E']
+    data['median_income'] = data['B19101_001E']
+    data['poverty_rate'] = (data['poverty_count'] / data['total_population']) * 100
 
     shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
 
