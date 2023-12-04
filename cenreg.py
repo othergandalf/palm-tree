@@ -43,7 +43,7 @@ def show():
     data['median_income'] = data['B19101_001E']
     data['poverty_rate'] = (data['poverty_count'] / data['total_population']) * 100
 
-    shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
+shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
 
     gdf = gpd.read_file(shp)
 
