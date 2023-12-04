@@ -48,10 +48,10 @@ shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v
 gdf = gpd.read_file(shp)
 
     # MERGE
-    merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
+merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
 
     # NEW CLEAN NAMES
-    variable_names = {
+variable_names = {
         'B08301_002E': 'Driving Alone',
         'B08301_003E': 'Carpooling',
         'B08301_008E': 'Public Transportation',
@@ -62,7 +62,7 @@ gdf = gpd.read_file(shp)
     }
 poverty_rate = (poverty_count / total_population) * 100
     # NEW DF
-    clean_data = county_data.rename(columns=variable_names)
+clean_data = county_data.rename(columns=variable_names)
 
     # Assuming you've loaded the additional variables into your DataFrame
     selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'median_income', 'poverty_rate', ...]
