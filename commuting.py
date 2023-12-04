@@ -5,7 +5,8 @@ def set_page_config():
     """
     st.set_page_config(
         page_title="Michigan Commuting Data",
-        layout="wide"
+        layout="wide",
+    )
       set_page_config()
   # TITLE
 #  st.title('Michigan Commuting Data')
