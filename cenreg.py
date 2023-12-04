@@ -1,5 +1,6 @@
 def show():
-  import pandas as pd
+  st.title('Model of Commuting Data at Tract level')
+import pandas as pd
 import streamlit as st
 import geopandas as gpd
 import pydeck as pdk
@@ -7,7 +8,7 @@ import plotly.express as px
 from census import Census
 from us import states
 # TITLE
-st.title('Michigan Commuting Data')
+
 # KEY
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
