@@ -1,7 +1,6 @@
 import streamlit as st
-
 def show():
-  st.title('Model of Commuting Data at Tract level')
+st.title('Model of Commuting Data at Tract level')
 import pandas as pd
 import geopandas as gpd
 import pydeck as pdk
