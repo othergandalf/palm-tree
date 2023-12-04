@@ -45,6 +45,14 @@ def show():
 
 shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
 
+import streamlit as st
+import pandas as pd
+import geopandas as gpd
+import pydeck as pdk
+import plotly.express as px
+from census import Census
+from us import states
+
 gdf = gpd.read_file(shp)
 
     # MERGE
