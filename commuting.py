@@ -6,8 +6,8 @@ def show():
   import plotly.express as px
 from census import Census
 from us import state
-  # TITLE
- st.title('Michigan Commuting Data')
+# TITLE
+st.title('Michigan Commuting Data')
 # KEY
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
