@@ -1,13 +1,13 @@
-import streamlit as st
 def show():
-  # TITLE
-#  st.title('Michigan Commuting Data')
+  import streamlit as st
   import pandas as pd
   import geopandas as gpd
   import pydeck as pdk
   import plotly.express as px
 from census import Census
-from us import states
+from us import state
+  # TITLE
+ st.title('Michigan Commuting Data')
 # KEY
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
