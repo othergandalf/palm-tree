@@ -1,13 +1,5 @@
+def show():
 import streamlit as st
-#def show():
-def set_page_config():
-    """Sets the page configuration.
-    """
-    st.set_page_config(
-        page_title="Sephora vs Ulta",
-        layout="wide",
-    )
-set_page_config()
 import pandas as pd
 import geopandas as gpd
 import pydeck as pdk
