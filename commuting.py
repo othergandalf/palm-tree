@@ -5,7 +5,9 @@ def show():
     import pydeck as pdk
     import plotly.express as px
     import census
+    from census import Census
     import us 
+    from us import states
     st.title('Michigan Commuting Data')
     # KEY
     c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
