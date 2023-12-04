@@ -1,12 +1,12 @@
 import streamlit as st
 # def show():
-  def set_page_config():
+def set_page_config():
     """Sets the page configuration.
     """
     st.set_page_config(
         page_title="Michigan Commuting Data",
         layout="wide"
-set_page_config()
+      set_page_config()
   # TITLE
 #  st.title('Michigan Commuting Data')
 import pandas as pd
