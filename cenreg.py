@@ -65,27 +65,27 @@ poverty_rate = (poverty_count / total_population) * 100
 clean_data = county_data.rename(columns=variable_names)
 
     # Assuming you've loaded the additional variables into your DataFrame
-    selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'median_income', 'poverty_rate', ...]
-    X = data[selected_features]
+selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'median_income', 'poverty_rate', ...]
+X = data[selected_features]
 
     # Standardization
-    scaler = StandardScaler()
-    scaled_X = scaler.fit_transform(X)
+scaler = StandardScaler()
+scaled_X = scaler.fit_transform(X)
 
     # Build KNN Model
-    knn_model = KNeighborsClassifier(n_neighbors=7)
-    knn_model.fit(scaled_X, y)
+knn_model = KNeighborsClassifier(n_neighbors=7)
+knn_model.fit(scaled_X, y)
 
     # Add widgets for the new variables
-    total_population_slider = st.slider("Total Population", min_value=0, max_value=500000, value=250000)
-    median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
+total_population_slider = st.slider("Total Population", min_value=0, max_value=500000, value=250000)
+median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
 
     # Scale user inputs and make predictions
-    user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
-    prediction = knn_model.predict(user_input)
+user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
+prediction = knn_model.predict(user_input)
 
-    st.pydeck_chart(pdk.Deck(
+st.pydeck_chart(pdk.Deck(
         map_style=None,
         initial_view_state=pdk.ViewState(
             latitude=44.89,
