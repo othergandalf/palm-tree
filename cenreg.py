@@ -45,7 +45,7 @@ def show():
 
 shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
 
-    gdf = gpd.read_file(shp)
+gdf = gpd.read_file(shp)
 
     # MERGE
     merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
