@@ -1,6 +1,6 @@
 def show():
-import streamlit as st
 import pandas as pd
+import streamlit as st
 import geopandas as gpd
 import pydeck as pdk
 import plotly.express as px
