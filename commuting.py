@@ -4,8 +4,8 @@ def show():
   import geopandas as gpd
   import pydeck as pdk
   import plotly.express as px
-from census import Census
-from us import state
+  from census import Census
+  from us import state
 # TITLE
 st.title('Michigan Commuting Data')
 # KEY
