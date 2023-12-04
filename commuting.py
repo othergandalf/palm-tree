@@ -1,5 +1,5 @@
 import streamlit as st
-# def show():
+def show():
 def set_page_config():
     """Sets the page configuration.
     """
