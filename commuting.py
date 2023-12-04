@@ -6,6 +6,7 @@ def show():
     st.set_page_config(
         page_title="Michigan Commuting Data",
         layout="wide"
+      set_page_config()
   # TITLE
   st.title('Michigan Commuting Data')
 import pandas as pd
