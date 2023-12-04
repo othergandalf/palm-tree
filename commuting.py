@@ -4,7 +4,7 @@ def show():
     """Sets the page configuration.
     """
     st.set_page_config(
-        page_title="Sephora vs Ulta",
+        page_title="Michigan Commuting Data",
         layout="wide"
   # TITLE
   st.title('Michigan Commuting Data')
