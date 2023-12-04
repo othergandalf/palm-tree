@@ -1,110 +1,95 @@
-def show():
-    import streamlit as st
-    import pandas as pd
-    import geopandas as gpd
-    import pydeck as pdk
-    import plotly.express as px
-    from census import Census
-    from us import states
-    # TITLE
-    #  st.title('Michigan Commuting Data')
-    # KEY
-    c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
+import streamlit as st
+import pandas as pd
+import geopandas as gpd
+import pydeck as pdk
+from census import Census
+from us import states
+from sklearn.neighbors import KNeighborsClassifier
+from sklearn.preprocessing import StandardScaler
 
-    mi_census = c.acs5.state_county_tract(fields=('NAME',
-                                            'B08301_001E',
-                                            'B08301_002E',
-                                            'B08301_003E',
-                                            'B08301_008E',
-                                            'B08301_011E',
-                                            'B08301_012E',
-                                            'B08301_013E',
-                                            'B08301_014E',
-                                            'B01003_001E', # med income
-                                            'B17001_002E',
-                                            'B01003_001E',), 
-                                state_fips=states.MI.fips,
-                                county_fips="*",
-                                year=2021)
-    # B01003_001E: total population
-    # B19101_001E: median income
-    # B17001_002E: poverty count 
+# Fetch census data
+def fetch_census_data(api_key, state_code, county_code):
+    c = Census(api_key)
+    fields = [
+        'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
+        'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
+        'B01003_001E', 'B19101_001E', 'B17001_002E'
+    ]
 
-    #DF 
-    mi_df = pd.DataFrame(mi_census)
+    census_data = c.acs5.state_county_tract(
+        fields=fields,
+        state_fips=state_code,
+        county_fips=county_code,
+        tract="*",
+        year=2021
+    )
 
-    mi_df.head()
-    st.header('Select a :blue[something]')
-
-    ## KNN MODEL BEGINS HERE
-    
-    data['poverty_count'] = data['B17001_002E']
-    data['total_population'] = data['B01003_001E']
-    data['median_income'] = data['B19101_001E']
-    data['poverty_rate'] = (data['poverty_count'] / data['total_population']) * 100
-
-shp = "https://raw.githubusercontent.com/othergandalf/palm-tree/main/Counties_(v17a).geojson"
-
-gdf = gpd.read_file(shp)
-
-    # MERGE
-merged_df = gdf.merge(mi_df, how='left', left_on='FIPSCODE', right_on='county')
-
-    # NEW CLEAN NAMES
-variable_names = {
+    df = pd.DataFrame(census_data)
+    df.rename(columns={
         'B08301_002E': 'Driving Alone',
         'B08301_003E': 'Carpooling',
         'B08301_008E': 'Public Transportation',
         'B08301_011E': 'Walking',
         'B08301_012E': 'Cycling',
         'B08301_013E': 'Other Means',
-        'B08301_014E': 'Worked from Home'
-    }
-poverty_rate = (poverty_count / total_population) * 100
-    # NEW DF
-clean_data = county_data.rename(columns=variable_names)
+        'B08301_014E': 'Worked from Home',
+        'B01003_001E': 'Total Population',
+        'B19101_001E': 'Median Income',
+        'B17001_002E': 'Poverty Count',
+    }, inplace=True)
 
-    # Assuming you've loaded the additional variables into your DataFrame
-selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'median_income', 'poverty_rate', ...]
-X = data[selected_features]
+    df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
-    # Standardization
-scaler = StandardScaler()
-scaled_X = scaler.fit_transform(X)
+    return df
 
-    # Build KNN Model
-knn_model = KNeighborsClassifier(n_neighbors=7)
-knn_model.fit(scaled_X, y)
+# Streamlit app
+def main():
+    st.title('Michigan Commuting Data')
 
-    # Add widgets for the new variables
-total_population_slider = st.slider("Total Population", min_value=0, max_value=500000, value=250000)
-median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
-poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
+    # Add your Census API key here
+    census_api_key = "YOUR_CENSUS_API_KEY"
+    st.markdown("Replace 'YOUR_CENSUS_API_KEY' with your actual Census API key.")
 
-    # Scale user inputs and make predictions
-user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
-prediction = knn_model.predict(user_input)
+    # Input for state and county codes
+    state_code = st.text_input("Enter State FIPS Code (e.g., 26 for Michigan):", "26")
+    county_code = st.text_input("Enter County FIPS Code (e.g., 163 for Wayne County):", "163")
 
-st.pydeck_chart(pdk.Deck(
-        map_style=None,
-        initial_view_state=pdk.ViewState(
-            latitude=44.89,
-            longitude=-84.76,
-            zoom=5,
-            pitch=0,
-        ), layers=[
-            pdk.Layer(
-                "GeoJsonLayer",
-                data=merged_df,
-                get_fill_color=f"[100, 190, 245, {selected_variable} * 0.1]",
-                pickable=True,
-                auto_highlight=True,
-                on_hover=True,
-                tooltip={"text": "{NAME}\n{value}".format(NAME="{NAME}", value="{" + selected_variable + "}")},
-            )
-        ]
-    ))
+    if st.button("Fetch Data"):
+        try:
+            st.info("Fetching data. Please wait...")
 
+            # Fetch data
+            data = fetch_census_data(census_api_key, state_code, county_code)
 
+            # Display the cleaned data
+            st.dataframe(data.head())
+            st.success("Data fetched successfully!")
 
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
 
+    # KNN model
+    if 'data' in locals():
+        selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'Median Income', 'Poverty Rate', ...]
+        X = data[selected_features]
+        y = data['TargetColumn']  # Replace 'TargetColumn' with your actual target column
+
+        scaler = StandardScaler()
+        scaled_X = scaler.fit_transform(X)
+
+        knn_model = KNeighborsClassifier(n_neighbors=7)
+        knn_model.fit(scaled_X, y)
+
+        total_population_slider = st.slider("Total Population", min_value=0, max_value=500000, value=250000)
+        median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
+        poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
+
+        user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
+        prediction = knn_model.predict(user_input)
+
+        st.write(f"KNN Prediction: {prediction}")
+
+# Rest of your code for visualization remains unchanged
+
+if __name__ == "__main__":
+    main()
