@@ -79,7 +79,7 @@ knn_model.fit(scaled_X, y)
     # Add widgets for the new variables
 total_population_slider = st.slider("Total Population", min_value=0, max_value=500000, value=250000)
 median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
-    poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
+poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
 
     # Scale user inputs and make predictions
 user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
