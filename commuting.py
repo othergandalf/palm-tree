@@ -1,6 +1,5 @@
 import streamlit as st
 def show():
-def set_page_config():
   # TITLE
 #  st.title('Michigan Commuting Data')
 import pandas as pd
