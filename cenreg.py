@@ -38,7 +38,7 @@ df.rename(columns={
 
 df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
-return df
+    return df
 
 def train_knn_model(data):
     # Feature selection
