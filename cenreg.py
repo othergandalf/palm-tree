@@ -7,64 +7,60 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 import plotly.express as px
 
-c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
-fields = [
-    'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
-    'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
-    'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'  # Add the new variable for time of commute
-]
+def fetch_census_data():
+    c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
+    fields = [
+        'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
+        'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
+        'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'
+    ]
 
-# Fetch census data for all MI tracts
-census_data = c.acs5.state_county_tract(
-    fields=fields,
-    county_fips="*",
-    state_fips=states.MI.fips,
-    tract="*",
-    year=2021
-)
+    # Fetch census data for all MI tracts
+    census_data = c.acs5.state_county_tract(
+        fields=fields,
+        county_fips="*",
+        state_fips=states.MI.fips,
+        tract="*",
+        year=2021
+    )
 
-df = pd.DataFrame(census_data)
-df.rename(columns={
-    'B08301_002E': 'Driving Alone',
-    'B08301_003E': 'Carpooling',
-    'B08301_008E': 'Public Transportation',
-    'B08301_011E': 'Walking',
-    'B08301_012E': 'Cycling',
-    'B08301_013E': 'Other Means',
-    'B08301_014E': 'Worked from Home',
-    'B01003_001E': 'Total Population',
-    'B19101_001E': 'Median Income',
-    'B17001_002E': 'Poverty Count',
-    'B08303_001E': 'Time of Commute'  # Rename as needed
-}, inplace=True)
+    df = pd.DataFrame(census_data)
+    df.rename(columns={
+        'B08301_002E': 'Driving Alone',
+        'B08301_003E': 'Carpooling',
+        'B08301_008E': 'Public Transportation',
+        'B08301_011E': 'Walking',
+        'B08301_012E': 'Cycling',
+        'B08301_013E': 'Other Means',
+        'B08301_014E': 'Worked from Home',
+        'B01003_001E': 'Total Population',
+        'B19101_001E': 'Median Income',
+        'B17001_002E': 'Poverty Count',
+        'B08303_001E': 'Time of Commute'
+    }, inplace=True)
 
-df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
+    df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
+
+    return df
 
 def train_knn_model(df):
-    # Feature selection
-    selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']  # Add the new variable
+    selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
     y = df[['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']]
 
-    # impute via SimpleImputer
     imputer = SimpleImputer(strategy='median')
-    # Fit and transform the imputer on your data
     X_imp = imputer.fit_transform(X)
-    # Replace the original X with the imputed values
     df[selected_features] = X_imp
 
-    # Standardization
     scaler = StandardScaler()
     scaled_X = scaler.fit_transform(X_imp)
 
-    # Build KNN Model
     knn_model = KNeighborsClassifier(n_neighbors=7)
     knn_model.fit(scaled_X, y)
 
     return knn_model, scaler
 
 def make_predictions(model, scaler, user_input):
-    # Scale user inputs and make predictions
     scaled_input = scaler.transform([user_input])
     prediction = model.predict(scaled_input)
 
@@ -72,6 +68,9 @@ def make_predictions(model, scaler, user_input):
 
 def show():
     st.title('KNN Model Page')
+
+    # Load data
+    df = fetch_census_data()
 
     # KNN model training
     st.header('KNN Model Training')
@@ -86,13 +85,12 @@ def show():
     total_population_slider = st.slider("Total Population", min_value=0, max_value=10000, value=5000)
     median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
-    time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max_value=120, value=30)  # Add new slider
+    time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max_value=120, value=30)
 
-    # inputs
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]  # Include the new variable
-  
-# prediction
-  # Make predictions
+    # User inputs
+    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
+
+    # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
 
     st.write(f"Predicted Commuting Pattern: {prediction}")
@@ -114,5 +112,10 @@ def show():
 
     st.plotly_chart(fig)
 
+    # Add an "Update" button to trigger predictions
+    if st.button("Update"):
+        prediction = make_predictions(knn_model, scaler, user_input)
+        st.write(f"Updated Prediction: {prediction}")
+
 # Uncomment the next line to run the Streamlit app
-# show()
+show()
