@@ -11,21 +11,25 @@ def show():
     st.title('KNN Model Page')
 
     # Fetch census data
-    def fetch_census_data(api_key, state_code, county_code):
-        c = Census(api_key)
+    #naming some objects for the API call
+        c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
         fields = [
             'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
             'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
             'B01003_001E', 'B19101_001E', 'B17001_002E'
         ]
-
-        census_data = c.acs5.state_county_tract(
-            fields=fields,
-            state_fips=state_code,
-            county_fips=county_code,
-            tract="*",
-            year=2021
-        )
+     census_data = c.acs5.state_county(fields=('NAME',
+                                            'B08301_001E',
+                                            'B08301_002E',
+                                            'B08301_003E',
+                                            'B08301_008E',
+                                            'B08301_011E',
+                                            'B08301_012E',
+                                            'B08301_013E',
+                                            'B08301_014E'),
+                                state_fips=states.MI.fips,
+                                county_fips="*",
+                                year=2021)
 
         df = pd.DataFrame(census_data)
         df.rename(columns={
@@ -48,9 +52,9 @@ def show():
         st.header('KNN Model Training')
 
         # Feature selection
-        selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'Median Income', 'Poverty Rate', ...]
+        selected_features = ['Total Population', 'Median Income', 'Poverty Rate']
         X = data[selected_features]
-        y = data['TargetColumn']  # Replace 'TargetColumn' with your actual target column
+        y = data['Cycling']  # Replace 'TargetColumn' with your actual target column
 
         # Standardization
         scaler = StandardScaler()
