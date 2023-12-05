@@ -36,11 +36,11 @@ df.rename(columns={
 
 df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
-def train_knn_model(data):
+def train_knn_model(df):
     # Feature selection
     selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'Median Income', 'Poverty Rate', ...]
-    X = data[selected_features]
-    y = data['TargetColumn']  # Replace 'TargetColumn' with your actual target column
+    X = df[selected_features]
+    y = df['TargetColumn']  # Replace 'TargetColumn' with your actual target column
 
     # Standardization
     scaler = StandardScaler()
@@ -66,7 +66,7 @@ def show():
     st.header('KNN Model Training')
 
     # Train the KNN model and get the scaler
-    knn_model, scaler = train_knn_model(data)
+    knn_model, scaler = train_knn_model(df)
 
     st.success("KNN Model trained successfully!")
 
