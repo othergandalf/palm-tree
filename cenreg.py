@@ -62,9 +62,6 @@ def make_predictions(model, scaler, user_input):
 def show():
     st.title('KNN Model Page')
 
-    # Fetch census data
-    data = fetch_census_data()
-
     # KNN model training
     st.header('KNN Model Training')
 
