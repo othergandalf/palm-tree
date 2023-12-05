@@ -38,9 +38,9 @@ df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
 def train_knn_model(df):
     # Feature selection
-    selected_features = ['B08006_001E', 'B08136_001E', 'B08132_001E', 'Median Income', 'Poverty Rate', ...]
+    selected_features = ['Total Population', 'Driving Alone', 'Median Income', 'Poverty Rate']
     X = df[selected_features]
-    y = df['TargetColumn']  # Replace 'TargetColumn' with your actual target column
+    y = df['Walking']  # Replace 'TargetColumn' with your actual target column
 
     # Standardization
     scaler = StandardScaler()
