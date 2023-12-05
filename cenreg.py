@@ -22,8 +22,8 @@ census_data = c.acs5.state_county_tract(
     tract="*",
     year=2021)
 
-    df = pd.DataFrame(census_data)
-    df.rename(columns={
+df = pd.DataFrame(census_data)
+df.rename(columns={
         'B08301_002E': 'Driving Alone',
         'B08301_003E': 'Carpooling',
         'B08301_008E': 'Public Transportation',
@@ -36,9 +36,9 @@ census_data = c.acs5.state_county_tract(
         'B17001_002E': 'Poverty Count',
     }, inplace=True)
 
-    df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
+df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
-    return df
+return df
 
 def train_knn_model(data):
     # Feature selection
