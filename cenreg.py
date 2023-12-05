@@ -51,21 +51,21 @@ X_imp = imputer.fit_transform(X)
 df[selected_features] = X_imp
 
     # Standardization
-    scaler = StandardScaler()
-    scaled_X = scaler.fit_transform(X_imp)
+scaler = StandardScaler()
+scaled_X = scaler.fit_transform(X_imp)
 
     # Build KNN Model
-    knn_model = KNeighborsClassifier(n_neighbors=7)
-    knn_model.fit(scaled_X, y)
+knn_model = KNeighborsClassifier(n_neighbors=7)
+knn_model.fit(scaled_X, y)
 
-    return knn_model, scaler
+return knn_model, scaler
 
 def make_predictions(model, scaler, user_input):
     # Scale user inputs and make predictions
-    scaled_input = scaler.transform([user_input])
-    prediction = model.predict(scaled_input)
+scaled_input = scaler.transform([user_input])
+prediction = model.predict(scaled_input)
 
-    return prediction
+return prediction
 
 def show():
     st.title('KNN Model Page')
