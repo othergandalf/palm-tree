@@ -52,7 +52,7 @@ def show():
         st.header('KNN Model Training')
 
         # Feature selection
-        selected_features = ['Total Population', 'Median Income', 'Poverty Rate']
+        selected_features = ['Total Population', 'Median Income', 'Poverty Rate','Driving Alone']
         X = data[selected_features]
         y = data['Cycling']  # Replace 'TargetColumn' with your actual target column
 
@@ -73,7 +73,7 @@ def show():
         poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
 
         # Scale user inputs and make predictions
-        user_input = scaler.transform([[..., total_population_slider, median_income_slider, poverty_rate_slider]])
+        user_input = scaler.transform([[total_population_slider, median_income_slider, poverty_rate_slider]])
         prediction = knn_model.predict(user_input)
 
         st.write(f"Predicted Commuting Pattern: {prediction}")
