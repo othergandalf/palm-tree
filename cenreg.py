@@ -15,12 +15,12 @@ def fetch_census_data():
     ]
     
     # Fetch census data for all MI tracts
-    census_data = c.acs5.state_tract(
-        fields=fields,
-        state_fips=states.MI.fips,
-        tract="*",
-        year=2021
-    )
+census_data = c.acs5.state_county_tract(
+    fields=fields,
+    county_fips = "*",
+    state_fips=states.MI.fips,
+    tract="*",
+    year=2021)
 
     df = pd.DataFrame(census_data)
     df.rename(columns={
