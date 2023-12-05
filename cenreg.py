@@ -41,10 +41,18 @@ def train_knn_model(df):
     selected_features = ['Total Population', 'Driving Alone', 'Median Income', 'Poverty Rate']
     X = df[selected_features]
     y = df['Walking']  # Replace 'TargetColumn' with your actual target column
+ # impute via SimpleImputer
+imputer = SimpleImputer(strategy='median')
+
+# Fit and transform the imputer on your data
+X_imp = imputer.fit_transform(X)
+
+# Replace the original X with the imputed values
+df[selected_features] = X_imp
 
     # Standardization
     scaler = StandardScaler()
-    scaled_X = scaler.fit_transform(X)
+    scaled_X = scaler.fit_transform(X_imp)
 
     # Build KNN Model
     knn_model = KNeighborsClassifier(n_neighbors=7)
