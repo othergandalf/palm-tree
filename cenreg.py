@@ -4,7 +4,8 @@ from census import Census
 from us import states
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
-from sklearn.impute import SimpleImputer  # Add this import
+from sklearn.impute import SimpleImputer
+import plotly.express as px
 
 c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 fields = [
@@ -42,7 +43,7 @@ def train_knn_model(df):
     # Feature selection
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate']
     X = df[selected_features]
-    y = df['Walking']  # Replace 'TargetColumn' with your actual target column
+    y = df[['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']]
 
     # impute via SimpleImputer
     imputer = SimpleImputer(strategy='median')
@@ -93,5 +94,21 @@ def show():
 
     st.write(f"Predicted Commuting Pattern: {prediction}")
 
-# Uncomment the next line to run the Streamlit app
-show()
+    # Plotting the data using Plotly Express with user customization
+    st.header('Commuting Pattern Visualization')
+    color_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
+    size_variable = st.selectbox("Select Size Variable", ['Total Population'])
+    y_axis_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
+
+    fig = px.scatter(
+        df,
+        x='Median Income',
+        y=y_axis_variable,
+        color=color_variable,
+        size=size_variable,
+        hover_data=['NAME']
+    )
+
+    st.plotly_chart(fig)
+
+ show()
