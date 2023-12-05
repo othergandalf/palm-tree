@@ -92,10 +92,8 @@ def show():
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]  # Include the new variable
   
 # prediction
-if st.button("Update Prediction"):
-        # Make predictions
-        prediction = make_predictions(knn_model, scaler, user_input)
-        st.write(f"Predicted Commuting Pattern: {prediction}")
+  # Make predictions
+    prediction = make_predictions(knn_model, scaler, user_input)
 
     st.write(f"Predicted Commuting Pattern: {prediction}")
 
