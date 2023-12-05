@@ -113,7 +113,7 @@ def show():
     st.plotly_chart(fig)
 
     # Add an "Update" button to trigger predictions
-    if st.button("Update"):
+    st.button("Update"):
         prediction = make_predictions(knn_model, scaler, user_input)
         st.write(f"Updated Prediction: {prediction}")
 
