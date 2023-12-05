@@ -11,7 +11,7 @@ c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 fields = [
     'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
     'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
-    'B01003_001E', 'B19101_001E', 'B17001_002E'
+    'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'  # Add the new variable for time of commute
 ]
 
 # Fetch census data for all MI tracts
@@ -35,13 +35,14 @@ df.rename(columns={
     'B01003_001E': 'Total Population',
     'B19101_001E': 'Median Income',
     'B17001_002E': 'Poverty Count',
+    'B08303_001E': 'Time of Commute'  # Rename as needed
 }, inplace=True)
 
 df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
 def train_knn_model(df):
     # Feature selection
-    selected_features = ['Total Population', 'Median Income', 'Poverty Rate']
+    selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']  # Add the new variable
     X = df[selected_features]
     y = df[['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']]
 
@@ -85,9 +86,10 @@ def show():
     total_population_slider = st.slider("Total Population", min_value=0, max_value=10000, value=5000)
     median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
+    time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max_value=120, value=30)  # Add new slider
 
     # User inputs
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider]
+    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]  # Include the new variable
 
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
@@ -111,4 +113,5 @@ def show():
 
     st.plotly_chart(fig)
 
-show()
+# Uncomment the next line to run the Streamlit app
+# show()
