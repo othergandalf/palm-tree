@@ -43,22 +43,17 @@ def train_knn_model(df):
     y = df['Walking']  # Replace 'TargetColumn' with your actual target column
  # impute via SimpleImputer
 imputer = SimpleImputer(strategy='median')
-
 # Fit and transform the imputer on your data
 X_imp = imputer.fit_transform(X)
-
 # Replace the original X with the imputed values
 df[selected_features] = X_imp
-
     # Standardization
 scaler = StandardScaler()
 scaled_X = scaler.fit_transform(X_imp)
-
     # Build KNN Model
 knn_model = KNeighborsClassifier(n_neighbors=7)
 knn_model.fit(scaled_X, y)
-
-        return knn_model, scaler
+return knn_model, scaler
 
 def make_predictions(model, scaler, user_input):
     # Scale user inputs and make predictions
