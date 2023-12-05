@@ -94,4 +94,4 @@ def show():
     st.write(f"Predicted Commuting Pattern: {prediction}")
 
 # Uncomment the next line to run the Streamlit app
-# show()
+show()
