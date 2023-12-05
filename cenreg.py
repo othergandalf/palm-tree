@@ -58,7 +58,7 @@ scaled_X = scaler.fit_transform(X_imp)
 knn_model = KNeighborsClassifier(n_neighbors=7)
 knn_model.fit(scaled_X, y)
 
-return knn_model, scaler
+        return knn_model, scaler
 
 def make_predictions(model, scaler, user_input):
     # Scale user inputs and make predictions
