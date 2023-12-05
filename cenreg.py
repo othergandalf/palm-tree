@@ -5,10 +5,8 @@ from us import states
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import StandardScaler
 
-def fetch_census_data():
-    # Naming some objects for the API call
-    c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
-    fields = [
+c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
+fields = [
         'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
         'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
         'B01003_001E', 'B19101_001E', 'B17001_002E'
