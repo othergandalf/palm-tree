@@ -97,15 +97,16 @@ def show():
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    color_variable = st.selectbox("Select Color Variable", ['Median Income'])
+    color_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
     size_variable = st.selectbox("Select Size Variable", ['Total Population'])
-    y_axis_variable = st.selectbox("Select Y-Axis Variable",['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
+    y_axis_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
 
+    # Flip the color axis and y-axis variable
     fig = px.scatter(
         df,
-        x='Total Population',
-        y=y_axis_variable,
-        color=color_variable,
+        x='Median Income',
+        y=color_variable,  # Use color_variable for y-axis
+        color=y_axis_variable,  # Use y_axis_variable for color
         size=size_variable,
         hover_data=['NAME']
     )
@@ -113,9 +114,8 @@ def show():
     st.plotly_chart(fig)
 
     # Add an "Update" button to trigger predictions
-    st.button("Update"):
+    if st.button("Update"):
         prediction = make_predictions(knn_model, scaler, user_input)
         st.write(f"Updated Prediction: {prediction}")
 
-# Uncomment the next line to run the Streamlit app
-show()
+ show()
