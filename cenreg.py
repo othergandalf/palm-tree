@@ -117,5 +117,4 @@ def show():
     if st.button("Update"):
         prediction = make_predictions(knn_model, scaler, user_input)
         st.write(f"Updated Prediction: {prediction}")
-
- show()
+    show()
