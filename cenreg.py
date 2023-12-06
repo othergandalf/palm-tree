@@ -116,4 +116,4 @@ ef show():
         st.write(f"Updated Prediction: {prediction}")
 
 # Call the show function only once
-show()
+    show()
