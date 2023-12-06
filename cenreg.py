@@ -66,7 +66,7 @@ def make_predictions(model, scaler, user_input):
 
     return prediction
 
-ef show():
+def show():
     st.title('KNN Model Page')
 
     # Load data
