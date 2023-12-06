@@ -97,13 +97,13 @@ def show():
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    color_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
+    color_variable = st.selectbox("Select Color Variable", ['Median Income'])
     size_variable = st.selectbox("Select Size Variable", ['Total Population'])
-    y_axis_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
+    y_axis_variable = st.selectbox("Select Y-Axis Variable",['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
 
     fig = px.scatter(
         df,
-        x='Median Income',
+        x='Total Population',
         y=y_axis_variable,
         color=color_variable,
         size=size_variable,
