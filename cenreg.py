@@ -78,23 +78,17 @@ def show():
     # Train the KNN model and get the scaler
     knn_model, scaler = train_knn_model(df)
 
-    # Add widgets for user inputs
-    total_population_slider = st.slider("Total Population", min_value=0, max_value=10000, value=5000)
-    median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
-    poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
-    time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max_value=120, value=30)
+  # Add widgets for user inputs
+total_population_slider = st.slider("Total Population", min_value=0, max_value=10000, value=5000)
+median_income_slider = st.slider("Median Income", min_value=0, max_value=100000, value=50000)
+poverty_rate_slider = st.slider("Poverty Rate", min_value=0, max_value=100, value=10)
+time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max_value=120, value=30)
 
-    # User inputs
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
+# User inputs
+user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-    # Make predictions
-    prediction = make_predictions(knn_model, scaler, user_input)
-
-    st.write(f"Predicted Commuting Pattern: {prediction}")
-
-       # Add an "Update" button to trigger predictions
-    if st.button("Update"):
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
+# Add an "Update" button to trigger predictions
+if st.button("Update"):
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction: {prediction}")
