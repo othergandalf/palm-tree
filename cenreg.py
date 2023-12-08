@@ -12,7 +12,7 @@ def fetch_census_data():
     fields = [
         'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
         'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
-        'B01003_001E', 'K201904_001E', 'B17001_002E', 'B08303_001E'
+        'B01003_001E', 'S1903_C03_001E', 'B17001_002E', 'B08303_001E'
     ]
 
     # Fetch census data for all MI tracts
@@ -34,7 +34,7 @@ def fetch_census_data():
         'B08301_013E': 'Other Means',
         'B08301_014E': 'Worked from Home',
         'B01003_001E': 'Total Population',
-        'K201904_001E': 'Median Income',
+        'S1903_C03_001E': 'Median Income',
         'B17001_002E': 'Poverty Count',
         'B08303_001E': 'Time of Commute'
     }, inplace=True)
