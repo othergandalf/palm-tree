@@ -66,14 +66,18 @@ def make_predictions(knn_model, scaler, user_input):
 
     return prediction
 
+# ... (previous code)
+
 def show():
     st.title('KNN Model Page')
+
+    # Load data
+    df = fetch_census_data()
 
     # KNN model training
     st.header('KNN Model Training')
 
     # Train the KNN model and get the scaler
-    df = fetch_census_data()
     knn_model, scaler = train_knn_model(df)
 
     # Add widgets for user inputs with unique keys
@@ -85,17 +89,25 @@ def show():
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-    # Add an "Update" button to trigger predictions
-    if st.button("Update Model"):
-        # Make predictions
-        prediction = make_predictions(knn_model, scaler, user_input)
-        st.write(f"Updated Prediction (Driving Alone): {prediction}")
+    # Automatically trigger predictions when any widget value changes
+    st.button("Dummy Button", key="dummy_button", visible=False)
+
+    # Make predictions
+    prediction = make_predictions(knn_model, scaler, user_input)
+    st.write(f"Updated Prediction (Driving Alone): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    y_variable = 'Driving Alone'  # For binary classification
-    color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
-
+    y_variable = st.selectbox("Select Y-Axis Variable", ['Driving Alone',
+                                                         'Driving Alone',
+                                                         'Carpooling',
+                                                         'Public Transportation',
+                                                         'Walking',
+                                                         'Cycling',
+                                                         'Other Means',
+                                                         'Worked from Home']
+    color_variable = 'Poverty Rate'
+#     color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
     # Tract visual
     fig = px.scatter(df,
         x='Median Income',
@@ -108,4 +120,5 @@ def show():
     st.plotly_chart(fig)
 
 show()
+
 
