@@ -39,8 +39,6 @@ def fetch_census_data():
         'B08303_001E': 'Time of Commute'
     }, inplace=True)
 
-
-    df['Median Income'] *= 1000
     df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
     return df
