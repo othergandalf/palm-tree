@@ -66,8 +66,6 @@ def make_predictions(knn_model, scaler, user_input):
 
     return prediction
 
-# ... (previous code)
-
 def show():
     st.title('KNN Model Page')
 
@@ -105,10 +103,9 @@ def show():
                                                          'Walking',
                                                          'Cycling',
                                                          'Other Means',
-                                                         'Worked from Home']
+                                                         'Worked from Home'] )
     color_variable = 'Poverty Rate'
-#     color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
-    # Tract visual
+    # Tract visual - - -
     fig = px.scatter(df,
         x='Median Income',
         y=y_variable,  
