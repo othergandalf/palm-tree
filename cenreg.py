@@ -82,6 +82,8 @@ def make_predictions(knn_model, scaler, user_input):
 
     return prediction[0]
 
+
+
 def show():
     st.title('KNN Model Page')
 
