@@ -106,8 +106,8 @@ def show():
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
     time_of_commute_slider = st.slider("Time of Commute (minutes)", key="time_of_commute", min_value=0, max_value=120, value=30)
 
-    # User inputs
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
+     # My inputs
+    user_input = [int(total_population_slider), int(median_income_slider), int(poverty_rate_slider), int(time_of_commute_slider)]
 
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
