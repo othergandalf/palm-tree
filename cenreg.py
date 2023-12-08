@@ -6,6 +6,9 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import SimpleImputer
 import plotly.express as px
+from sklearn.metrics import confusion_matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 def fetch_census_data():
     c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
@@ -96,7 +99,23 @@ def show():
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
 
-    # Plotting the data using Plotly Express with user customization
+    # Evaluate the model using a confusion matrix
+    y_true = df[knn_y_variable]
+    y_pred = knn_model.predict(scaler.transform(df[['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']]))
+
+    # Create a confusion matrix
+    cm = confusion_matrix(y_true, y_pred, labels=df[knn_y_variable].unique())
+
+    # Display the confusion matrix using seaborn
+    st.header('Confusion Matrix')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=df[knn_y_variable].unique(), yticklabels=df[knn_y_variable].unique())
+    plt.xlabel('Predicted')
+    plt.ylabel('True')
+    st.pyplot()
+
+
+    # Plotly Express
     st.header('Commute Count at the Tract-Level')
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
     graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
