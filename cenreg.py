@@ -83,7 +83,7 @@ def show():
     # KNN model training
     st.header('KNN Model Training')
 
-    # Add widgets for user inputs with unique keys
+    # Initialize user inputs
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
     median_income_slider = st.slider("Median Income", key="median_income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
@@ -103,6 +103,10 @@ def show():
         # Make predictions
         prediction = make_predictions(knn_models[y_variable], scalers[y_variable], user_input)
         st.write(f"Prediction ({y_variable}): {prediction}")
+
+        # Update user input values based on sliders
+        total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider = st.slider("User Inputs", min_value=0, max_value=10000, value=5000), st.slider("User Inputs", min_value=0, max_value=100000, value=50000), st.slider("User Inputs", min_value=0, max_value=100, value=10), st.slider("User Inputs", min_value=0, max_value=120, value=30)
+        user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
 if __name__ == "__main__":
     show()
