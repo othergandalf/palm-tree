@@ -8,49 +8,19 @@ from sklearn.impute import SimpleImputer
 import plotly.express as px
 
 def fetch_census_data():
-    c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
-    fields = [
-        'NAME', 'B08301_001E', 'B08301_002E', 'B08301_003E', 'B08301_008E',
-        'B08301_011E', 'B08301_012E', 'B08301_013E', 'B08301_014E',
-        'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'
-    ]
+    # ... (unchanged)
 
-    # Fetch census data for all MI tracts
-    census_data = c.acs5.state_county_tract(
-        fields=fields,
-        county_fips="*",
-        state_fips=states.MI.fips,
-        tract="*",
-        year=2021
-    )
-
-    df = pd.DataFrame(census_data)
-    df.rename(columns={
-        'B08301_002E': 'Driving Alone',
-        'B08301_003E': 'Carpooling',
-        'B08301_008E': 'Public Transportation',
-        'B08301_011E': 'Walking',
-        'B08301_012E': 'Cycling',
-        'B08301_013E': 'Other Means',
-        'B08301_014E': 'Worked from Home',
-        'B01003_001E': 'Total Population',
-        'B19101_001E': 'Median Income',
-        'B17001_002E': 'Poverty Count',
-        'B08303_001E': 'Time of Commute'
-    }, inplace=True)
-
-    df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
-
-    return df
-
-def train_knn_model(df, knn_y_variable):
+def train_knn_model(df, y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
-    y = df[knn_y_variable]
+    y = df[y_variable]
 
     imputer = SimpleImputer(strategy='median')
     X_imp = imputer.fit_transform(X)
-    df[selected_features] = X_imp
+    
+    # Create a copy of the DataFrame before modifying it
+    df_copy = df.copy()
+    df_copy[selected_features] = X_imp
 
     scaler = StandardScaler()
     scaled_X = scaler.fit_transform(X_imp)
@@ -58,7 +28,7 @@ def train_knn_model(df, knn_y_variable):
     knn_model = KNeighborsClassifier(n_neighbors=3)
     knn_model.fit(scaled_X, y)
 
-    return knn_model, scaler
+    return knn_model, scaler, df_copy
 
 def make_predictions(knn_model, scaler, user_input):
     # Scale user input to match the scale of the training data
@@ -77,11 +47,11 @@ def show():
     st.header('KNN Model Training')
 
     # User selects the y-variable for the commute
-    knn_y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
-                              key="selectbox1")
+    y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
+                              key="0001")
 
-    # Train the KNN model and get the scaler based on user-selected y-variable
-    knn_model, scaler = train_knn_model(df, knn_y_variable)
+    # Train the KNN model and get the scaler based on the user-selected y-variable
+    knn_model, scaler, df_copy = train_knn_model(df, y_variable)
 
     # Add widgets for user inputs with unique keys
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
@@ -94,7 +64,7 @@ def show():
 
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
-    st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
+    st.write(f"Updated Prediction ({y_variable}): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commute Count at the Tract-Level')
@@ -104,7 +74,7 @@ def show():
                                      key="0002")
 
     # Tract visual
-    fig = px.scatter(df,
+    fig = px.scatter(df_copy,
         x='Median Income',
         y=graph_y_variable,
         color=color_variable,
