@@ -43,8 +43,6 @@ def fetch_census_data():
 
     return df
 
-# ... (previous code)
-
 def train_knn_model(df):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
@@ -70,9 +68,6 @@ def make_predictions(knn_model, scaler, user_input):
 
 def show():
     st.title('KNN Model Page')
-
-    # Load data
-    df = fetch_census_data()
 
     # KNN model training
     st.header('KNN Model Training')
