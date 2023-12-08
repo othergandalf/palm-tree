@@ -43,10 +43,12 @@ def fetch_census_data():
 
     return df
 
+# ... (previous code)
+
 def train_knn_model(df):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
-    y = df[['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']]
+    y = df['Driving Alone']  # Binary classification for "Driving Alone"
 
     imputer = SimpleImputer(strategy='median')
     X_imp = imputer.fit_transform(X)
@@ -78,7 +80,7 @@ def show():
     # Train the KNN model and get the scaler
     knn_model, scaler = train_knn_model(df)
 
-      # Add widgets for user inputs with unique keys
+    # Add widgets for user inputs with unique keys
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
     median_income_slider = st.slider("Median Income", key="median_income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
@@ -91,12 +93,11 @@ def show():
     if st.button("Update Model"):
         # Make predictions
         prediction = make_predictions(knn_model, scaler, user_input)
-        st.write(f"Updated Prediction: {prediction}")
+        st.write(f"Updated Prediction (Driving Alone): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    y_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
-    size_variable = st.selectbox("Select Size Variable", ['Total Population'])
+    y_variable = 'Driving Alone'  # For binary classification
     color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
 
     # Tract visual
@@ -104,9 +105,9 @@ def show():
         x='Median Income',
         y=y_variable,  
         color=color_variable,  
-        size=size_variable,
+        size='Total Population',
         hover_data=['NAME']
-)
+    )
 
     st.plotly_chart(fig)
 
