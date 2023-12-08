@@ -88,7 +88,7 @@ time_of_commute_slider = st.slider("Time of Commute (minutes)", min_value=0, max
 user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
 # Add an "Update" button to trigger predictions
-if st.button("Update"):
+if st.button("Update Model"):
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction: {prediction}")
