@@ -84,7 +84,13 @@ def show():
     time_of_commute_slider = st.slider("Time of Commute (minutes)", key="time_of_commute", min_value=0, max_value=120, value=30)
 
     # Train the KNN model and get the scaler based on user-selected y-variable
-    knn_model, scaler, df_copy = train_knn_model(df, knn_y_variable, total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider)
+    knn_model, scaler, df_copy = train_knn_model(df, knn_y_variable)
+
+    # Observe slider changes and trigger an update
+    total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000, on_change=lambda x: update_prediction(knn_model, scaler, df_copy, knn_y_variable))
+    median_income_slider = st.slider("Median Income", key="median_income", min_value=0, max_value=100000, value=50000, on_change=lambda x: update_prediction(knn_model, scaler, df_copy, knn_y_variable))
+    poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10, on_change=lambda x: update_prediction(knn_model, scaler, df_copy, knn_y_variable))
+    time_of_commute_slider = st.slider("Time of Commute (minutes)", key="time_of_commute", min_value=0, max_value=120, value=30, on_change=lambda x: update_prediction(knn_model, scaler, df_copy, knn_y_variable))
 
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
@@ -112,28 +118,10 @@ def show():
 
     st.plotly_chart(fig)
 
-# Add this function to train the KNN model in real-time
-def train_knn_model(df, knn_y_variable, total_population, median_income, poverty_rate, time_of_commute):
-    selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
-    
-    # Update the dataframe with the latest slider values
-    df_copy = df.copy()
-    df_copy['Total Population'] = total_population
-    df_copy['Median Income'] = median_income
-    df_copy['Poverty Rate'] = poverty_rate
-    df_copy['Time of Commute'] = time_of_commute
-    
-    X = df_copy[selected_features]
-    y = df_copy[knn_y_variable]
+# Add this function to update the prediction when sliders change
+def update_prediction(knn_model, scaler, df_copy, knn_y_variable):
+    user_input = [df_copy['Total Population'], df_copy['Median Income'], df_copy['Poverty Rate'], df_copy['Time of Commute']]
+    prediction = make_predictions(knn_model, scaler, user_input)
+    st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
 
-    imputer = SimpleImputer(strategy='median')
-    X_imp = imputer.fit_transform(X)
-
-    scaler = StandardScaler()
-    scaled_X = scaler.fit_transform(X_imp)
-
-    knn_model = KNeighborsClassifier(n_neighbors=7)
-    knn_model.fit(scaled_X, y)
-
-    return knn_model, scaler, df_copy
 
