@@ -102,13 +102,12 @@ def show():
     fig = px.scatter(
         df,
         x='Median Income',
-        y=y_variable,  # Use color_variable for y-axis
-        color=color_variable,  # Use y_axis_variable for color
+        y=y_variable,  
+        color=color_variable,  
         size=size_variable,
         hover_data=['NAME']
     )
 
     st.plotly_chart(fig)
 
-# Call the show function only once
-    show()
+   # show()
