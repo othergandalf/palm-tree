@@ -112,7 +112,7 @@ def show():
     st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
 
     # Display the actual y-variable from user-selected data
-    actual_value = df.loc[df[knn_y_variable] == prediction].head(1)[knn_y_variable].values[0]
+    actual_value = df[df[knn_y_variable] == prediction].head(1)[knn_y_variable].values[0]
     st.write(f"Actual {knn_y_variable} from user-selected data: {actual_value}")
 
     # Display the KNN training score
@@ -135,5 +135,7 @@ def show():
     )
 
     st.plotly_chart(fig)
+
+show()
 
 show()
