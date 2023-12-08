@@ -137,5 +137,3 @@ def show():
     st.plotly_chart(fig)
 
 show()
-
-show()
