@@ -129,5 +129,5 @@ def show():
     )
 
     st.plotly_chart(fig)
-st.markdown("This scatterplot takes Median Income, and puts it against the count of commutes for all Tracts. The selection bar above allows us to change our commute type of interest. It is very apparent that, as income rises, most areas tend to drive more, while for walking and cycling there is more of a central "mean" to the data, along with many 0's for tracts that don't demonstrate this commute type. The size of the dots are the population; the dots change how blue they are with how impoverished a tract is.")
+st.markdown("This scatterplot takes Median Income, and puts it against the count of commutes for all Tracts. The selection bar above allows us to change our commute type of interest. It is very apparent that, as income rises, most areas tend to drive more, while for walking and cycling there is more of a central effect to the data, along with many 0's for tracts that don't demonstrate this commute type. The size of the dots are the population; the dots change how blue they are with how impoverished a tract is. This analysis, I find, is useful for regression. A substitute for the KNN Model would be a regression method; a good lesson in 'simple is sometiems better.'")
 show()
