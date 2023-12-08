@@ -46,7 +46,7 @@ def fetch_census_data():
 def train_knn_model(df, knn_y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
-    y = df[y_variable]
+    y = df[knn_y_variable]
 
     imputer = SimpleImputer(strategy='median')
     X_imp = imputer.fit_transform(X)
@@ -94,7 +94,7 @@ def show():
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-    # Make predictions
+    # Make predictions using the copied dataframe
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
 
@@ -106,8 +106,8 @@ def show():
 
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
 
-    # Tract visual
-    fig = px.scatter(df,
+    # Tract visual using the copied dataframe
+    fig = px.scatter(df_copy,
         x='Median Income',
         y=graph_y_variable,
         color=color_variable,
