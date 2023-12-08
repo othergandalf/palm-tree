@@ -89,9 +89,6 @@ def show():
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
     time_of_commute_slider = st.slider("Time of Commute (minutes)", key="time_of_commute", min_value=0, max_value=120, value=30)
 
-    # User inputs
-    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
-
     # Train the KNN models and get the scalers
     knn_models, scalers = train_knn_model(df)
 
@@ -101,12 +98,8 @@ def show():
     commute_variables = ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']
     for y_variable in commute_variables:
         # Make predictions
-        prediction = make_predictions(knn_models[y_variable], scalers[y_variable], user_input)
+        prediction = make_predictions(knn_models[y_variable], scalers[y_variable], [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider])
         st.write(f"Prediction ({y_variable}): {prediction}")
-
-        # Update user input values based on sliders
-        total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider = st.slider("User Inputs", min_value=0, max_value=10000, value=5000), st.slider("User Inputs", min_value=0, max_value=100000, value=50000), st.slider("User Inputs", min_value=0, max_value=100, value=10), st.slider("User Inputs", min_value=0, max_value=120, value=30)
-        user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
 if __name__ == "__main__":
     show()
