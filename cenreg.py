@@ -98,7 +98,7 @@ def show():
     # Plotting the data using Plotly Express with user customization
     st.header('Commute Count at the Tract-Level')
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
-     graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
+    graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
                                      ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
                                      key="0002")
 
