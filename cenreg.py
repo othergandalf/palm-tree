@@ -43,7 +43,7 @@ def fetch_census_data():
 
     return df
 
-def train_knn_model(df, y_variable):
+def train_knn_model(df, knn_y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
     y = df[y_variable]
