@@ -11,7 +11,7 @@ from us import states
 import cenreg
 import commuting
 
-# have to import pages AFTER set_page_config is called. Good to know!
+#  have to import pages AFTER set_page_config is called. Good to know!
 
 page = st.sidebar.radio("Select Page", ["Exploring County-level Data", "Modeling Tract-level Data"])
 
