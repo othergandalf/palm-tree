@@ -76,12 +76,7 @@ def show():
     st.header('KNN Model Training')
 
     # User selects the y-variable for the commute
-    y_variable = st.selectbox("Select Y-Axis Variable for Commute", ['Driving Alone',
-                                                                     'Carpooling',
-                                                                     'Public Transportation',
-                                                                     'Walking', 'Cycling',
-                                                                     'Other Means',
-                                                                     'Worked from Home'],
+    y_variable = st.selectbox("Select Y-Axis Variable for Commute", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
                               key="0001")
 
     # Train the KNN model and get the scaler based on user-selected y-variable
@@ -103,11 +98,15 @@ def show():
     # Plotting the data using Plotly Express with user customization
     st.header('Commute Count at the Tract-Level')
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
+     graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
+                                     ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
+                                     key="0002")
+
 
     # Tract visual
     fig = px.scatter(df,
         x='Median Income',
-        y=y_variable,
+        y=graph_y_variable,
         color=color_variable,
         size='Total Population',
         hover_data=['NAME']
