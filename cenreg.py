@@ -87,12 +87,12 @@ def show():
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-    # Automatically trigger predictions when any widget value changes
-    st.button("Dummy Button", key="dummy_button", visible=False)
+     # Create an empty container to dynamically update content
+    result_container = st.empty()
 
-    # Make predictions
+    # Make predictions and update the container
     prediction = make_predictions(knn_model, scaler, user_input)
-    st.write(f"Updated Prediction (Driving Alone): {prediction}")
+    result_container.write(f"Updated Prediction (Driving Alone): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
