@@ -9,7 +9,7 @@ from us import states
 import cenreg
 import commuting
 
-st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗')
+st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗') #
 
 page = st.sidebar.radio("Select Page", ["Exploring County-level Data", "Modeling Tract-level Data"])
 
