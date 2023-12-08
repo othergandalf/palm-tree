@@ -60,9 +60,9 @@ def train_knn_model(df):
 
     return knn_model, scaler
 
-def make_predictions(model, scaler, user_input):
+def make_predictions(knn_model, scaler, user_input):
     scaled_input = scaler.transform([user_input])
-    prediction = model.predict(scaled_input)
+    prediction = knn_model.predict(scaled_input)
 
     return prediction
 
