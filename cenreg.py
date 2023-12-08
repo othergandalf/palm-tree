@@ -83,7 +83,7 @@ def show():
     knn_y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'], key="knn_y_variable")
 
     # Train the KNN model and get the scaler based on user-selected y-variable
-    knn_model, scaler, df_copy = train_knn_model(df, y_variable)
+    knn_model, scaler, df_copy = train_knn_model(df, knn_y_variable)
 
     # Add widgets for user inputs with unique keys
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
