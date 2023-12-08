@@ -78,9 +78,9 @@ def show():
 
     # User selects the y-variable for the commute
     knn_y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
-                              key="knn_y_key")
+                              key="0001")
 
-    # Train the KNN model and get the scaler based on user-selected y-variable
+    # Train the KNN model and get the scaler based on the user-selected y-variable
     knn_model, scaler = train_knn_model(df, knn_y_variable)
 
     # Add widgets for user inputs with unique keys
