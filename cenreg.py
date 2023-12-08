@@ -1,3 +1,5 @@
+Here is the code: 
+
 import streamlit as st
 import pandas as pd
 from census import Census
@@ -77,7 +79,8 @@ def show():
     st.header('KNN Model Training')
 
     # User selects the y-variable for the commute
-    y_variable = 'Driving Alone'
+    y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
+                              key="0001")
 
     # Train the KNN model and get the scaler based on user-selected y-variable
     knn_model, scaler = train_knn_model(df, y_variable)
@@ -114,4 +117,3 @@ def show():
     st.plotly_chart(fig)
 
 show()
-
