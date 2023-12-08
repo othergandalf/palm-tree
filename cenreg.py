@@ -89,15 +89,15 @@ def show():
 
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
-    
-    # Add an "Update" button to trigger predictions
+
+    st.write(f"Predicted Commuting Pattern: {prediction}")
+
+       # Add an "Update" button to trigger predictions
 if st.button("Update"):
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction: {prediction}")
-
-    st.write(f"Predicted Commuting Pattern: {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
