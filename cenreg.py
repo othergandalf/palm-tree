@@ -55,7 +55,7 @@ def train_knn_model(df, y_variable):
     scaler = StandardScaler()
     scaled_X = scaler.fit_transform(X_imp)
 
-    knn_model = KNeighborsClassifier(n_neighbors=7)
+    knn_model = KNeighborsClassifier(n_neighbors=3)
     knn_model.fit(scaled_X, y)
 
     return knn_model, scaler
