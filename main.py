@@ -6,10 +6,13 @@ import pydeck as pdk
 import plotly.express as px
 from census import Census
 from us import states
+
+st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗') #
+
 import cenreg
 import commuting
 
-st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗') #
+# have to import pages AFTER set_page_config is called. Good to know!
 
 page = st.sidebar.radio("Select Page", ["Exploring County-level Data", "Modeling Tract-level Data"])
 
