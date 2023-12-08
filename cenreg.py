@@ -15,7 +15,7 @@ def fetch_census_data():
         'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'
     ]
 
-    # #Fetch census data for all MI tracts
+    # Fetch census data for all MI tracts
     census_data = c.acs5.state_county_tract(
         fields=fields,
         county_fips="*",
