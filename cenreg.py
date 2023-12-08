@@ -94,16 +94,16 @@ def show():
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    color_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
+    y_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
     size_variable = st.selectbox("Select Size Variable", ['Total Population'])
-    y_axis_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
+    color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
 
     # Flip the color axis and y-axis variable
     fig = px.scatter(
         df,
         x='Median Income',
-        y=color_variable,  # Use color_variable for y-axis
-        color=y_axis_variable,  # Use y_axis_variable for color
+        y=y_variable,  # Use color_variable for y-axis
+        color=color_variable,  # Use y_axis_variable for color
         size=size_variable,
         hover_data=['NAME']
     )
