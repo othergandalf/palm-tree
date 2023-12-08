@@ -3,7 +3,7 @@ import pandas as pd
 from census import Census
 from us import states
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.impute import SimpleImputer
 import plotly.express as px
 
@@ -52,10 +52,10 @@ def train_knn_model(df, y_variable):
     X_imp = imputer.fit_transform(X)
     df[selected_features] = X_imp
 
-    scaler = StandardScaler()
+    scaler = MinMaxScaler()
     scaled_X = scaler.fit_transform(X_imp)
 
-    knn_model = KNeighborsClassifier(n_neighbors=3)
+    knn_model = KNeighborsClassifier(n_neighbors=5)
     knn_model.fit(scaled_X, y)
 
     return knn_model, scaler
