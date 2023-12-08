@@ -9,15 +9,6 @@ import plotly.express as px
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
 
-import streamlit as st
-import pandas as pd
-from census import Census
-from us import states
-from sklearn.neighbors import KNeighborsClassifier
-from sklearn.preprocessing import StandardScaler
-from sklearn.impute import SimpleImputer
-import plotly.express as px
-
 def fetch_census_data():
     c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
     fields = [
@@ -53,6 +44,7 @@ def fetch_census_data():
     df['Poverty Rate'] = (df['Poverty Count'] / df['Total Population']) * 100
 
     return df
+
 def train_knn_model(df, knn_y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
@@ -82,8 +74,6 @@ def make_predictions(knn_model, scaler, user_input):
 
     return prediction[0]
 
-
-
 def show():
     st.title('KNN Model Page')
 
@@ -106,15 +96,15 @@ def show():
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
     time_of_commute_slider = st.slider("Time of Commute (minutes)", key="time_of_commute", min_value=0, max_value=120, value=30)
 
-     # My inputs
-    user_input = [int(total_population_slider), int(median_income_slider), int(poverty_rate_slider), int(time_of_commute_slider)]
+    # User inputs
+    user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
 
     # Display the actual y-variable from user-selected data
-    actual_value = df[df[knn_y_variable] == prediction].head(1)[knn_y_variable].values[0]
+    actual_value = df[df[knn_y_variable] == float(prediction)].head(1)[knn_y_variable].values[0]
     st.write(f"Actual {knn_y_variable} from user-selected data: {actual_value}")
 
     # Display the KNN training score
