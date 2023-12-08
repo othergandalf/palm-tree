@@ -77,8 +77,7 @@ def show():
     st.header('KNN Model Training')
 
     # User selects the y-variable for the commute
-    y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
-                              key="0001")
+    y_variable = 'Driving Alone'
 
     # Train the KNN model and get the scaler based on user-selected y-variable
     knn_model, scaler = train_knn_model(df, y_variable)
