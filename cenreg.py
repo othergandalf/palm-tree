@@ -73,6 +73,7 @@ def show():
     st.header('KNN Model Training')
 
     # Train the KNN model and get the scaler
+    df = fetch_census_data()
     knn_model, scaler = train_knn_model(df)
 
     # Add widgets for user inputs with unique keys
