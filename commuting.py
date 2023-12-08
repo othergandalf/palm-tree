@@ -9,6 +9,7 @@ def show():
     import us 
     from us import states
     st.title('Michigan Commuting Data')
+    st.markdown("This multipage Streamlit app is a way to explore ACS 1-Year Census variables reflecting commuting counts in the State of Michigan. Below, there is an interactive visual of each county's commute mix. Below that is a map of Michigan, allowing you to see the distribution of commute types across Michigan.")
     # KEY
     c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
 
@@ -96,7 +97,7 @@ def show():
         'B08301_014E': 'Worked from Home'
     }, inplace = True )
     st.header('Select a :blue[commuting type]')
-    st.markdown("Below is an interactive map of a commuting type, and the counties that effects. See which counties are dependent on driving, or which regions are devoid of walkers. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
+    st.markdown("It is no secret we like to drive, and perhaps the map below can help visualize concentrations of certain types of other commutes in Michigan. How might the data we have be related to the unit of counties across Michigan? Below is an interactive map of a commuting type, and the counties that effects. See which counties are dependent on driving, or which regions are devoid of walkers. These are estimates, and are meant to be intepreted as such: more rural counties are subject to higher error.")
     # SELECT BOX 2
     selected_variable = st.sidebar.selectbox('Select Variable', ['Driving Alone',
                                                         'Carpooling',
