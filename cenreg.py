@@ -95,7 +95,7 @@ def show():
     st.write(f"Updated Prediction ({y_variable}): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
-    st.header('Commuting Pattern Visualization')
+    st.header('Commute Count at the Tract-Level')
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
 
     # Tract visual
