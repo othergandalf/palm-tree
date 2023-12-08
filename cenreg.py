@@ -43,10 +43,10 @@ def fetch_census_data():
 
     return df
 
-def train_knn_model(df):
+def train_knn_model(df, y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
-    y = df[['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home']]
+    y = df[y_variable]
 
     imputer = SimpleImputer(strategy='median')
     X_imp = imputer.fit_transform(X)
@@ -64,7 +64,7 @@ def make_predictions(knn_model, scaler, user_input):
     scaled_input = scaler.transform([user_input])
     prediction = knn_model.predict(scaled_input)
 
-    return prediction
+    return prediction[0]  # Return the first (and only) element of the prediction array
 
 def show():
     st.title('KNN Model Page')
@@ -75,10 +75,13 @@ def show():
     # KNN model training
     st.header('KNN Model Training')
 
-    # Train the KNN model and get the scaler
-    knn_model, scaler = train_knn_model(df)
+    # User selects the y-variable for the commute
+    y_variable = st.selectbox("Select Y-Axis Variable for Commute", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
 
-      # Add widgets for user inputs with unique keys
+    # Train the KNN model and get the scaler based on user-selected y-variable
+    knn_model, scaler = train_knn_model(df, y_variable)
+
+    # Add widgets for user inputs with unique keys
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
     median_income_slider = st.slider("Median Income", key="median_income", min_value=0, max_value=100000, value=50000)
     poverty_rate_slider = st.slider("Poverty Rate", key="poverty_rate", min_value=0, max_value=100, value=10)
@@ -87,26 +90,22 @@ def show():
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-    # Add an "Update" button to trigger predictions
-    if st.button("Update Model"):
-        # Make predictions
-        prediction = make_predictions(knn_model, scaler, user_input)
-        st.write(f"Updated Prediction: {prediction}")
+    # Make predictions
+    prediction = make_predictions(knn_model, scaler, user_input)
+    st.write(f"Updated Prediction ({y_variable}): {prediction}")
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
-    y_variable = st.selectbox("Select Color Variable", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'])
-    size_variable = st.selectbox("Select Size Variable", ['Total Population'])
-    color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
+    color_variable = 'Poverty Rate'  # Assuming this as a default color variable
 
     # Tract visual
     fig = px.scatter(df,
         x='Median Income',
-        y=y_variable,  
-        color=color_variable,  
-        size=size_variable,
+        y=y_variable,
+        color=color_variable,
+        size='Total Population',
         hover_data=['NAME']
-)
+    )
 
     st.plotly_chart(fig)
 
