@@ -66,7 +66,7 @@ def make_predictions(knn_model, scaler, user_input):
 
     return prediction
 
-def show():
+def show2():
     st.title('KNN Model Page')
 
     # Load data
@@ -110,4 +110,4 @@ def show():
 
     st.plotly_chart(fig)
 
-    show()
+    show2()
