@@ -60,11 +60,12 @@ def train_knn_model(df):
 
     return knn_model, scaler
 
+# ... (previous code)
+
 def make_predictions(knn_model, scaler, user_input):
     scaled_input = scaler.transform([user_input])
     prediction = knn_model.predict(scaled_input)
-
-    return prediction
+    return prediction[0]  # Return the first (and only) element of the prediction array
 
 def show():
     st.title('KNN Model Page')
@@ -87,7 +88,7 @@ def show():
     # User inputs
     user_input = [total_population_slider, median_income_slider, poverty_rate_slider, time_of_commute_slider]
 
-     # Create an empty container to dynamically update content
+    # Create an empty container to dynamically update content
     result_container = st.empty()
 
     # Make predictions and update the container
@@ -97,7 +98,6 @@ def show():
     # Plotting the data using Plotly Express with user customization
     st.header('Commuting Pattern Visualization')
     y_variable = st.selectbox("Select Y-Axis Variable", ['Driving Alone',
-                                                         'Driving Alone',
                                                          'Carpooling',
                                                          'Public Transportation',
                                                          'Walking',
@@ -105,7 +105,8 @@ def show():
                                                          'Other Means',
                                                          'Worked from Home'] )
     color_variable = 'Poverty Rate'
-    # Tract visual - - -
+
+    # Tract visual
     fig = px.scatter(df,
         x='Median Income',
         y=y_variable,  
@@ -117,5 +118,6 @@ def show():
     st.plotly_chart(fig)
 
 show()
+
 
 
