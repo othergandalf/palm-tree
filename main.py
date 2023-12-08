@@ -1,13 +1,12 @@
 # main.py
 import streamlit as st
+st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗') #
 import pandas as pd
 import geopandas as gpd
 import pydeck as pdk
 import plotly.express as px
 from census import Census
 from us import states
-
-st.set_page_config(page_title='Michigan Commuting Data', page_icon='🚗') #
 
 import cenreg
 import commuting
