@@ -76,6 +76,7 @@ def make_predictions(knn_model, scaler, user_input):
 
 def show():
     st.title('KNN Model Page')
+    st.markdown("This page will analyze Census data at the tract level, which is a subdivision of the county level; each county has a different number of tracts. The number of tracts is dependent on area population. Here, we attempt to use a K-Nearest Neighbors model to predict across 7 different types of commuting: Driving, Carpooling, Walking, Cycling, Other Means(which includes taxi services, ride-sharing services, and motorcyclists), and those who do not commute and work from home. We specify 5 Neighbors in the model below. We also hope to score our model, and see what the model predicts for a commute type if we feed it a fake Tract. This prediction could be useful in understanding how a certain type of tract, based on economic factors, chooses to commute. We examine four metrics: Median Income, Total Population, Poverty Rate, and Time of Commute, in minutes.")
 
     # Load data
     df = fetch_census_data()
@@ -102,6 +103,7 @@ def show():
     # Make predictions
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction ({knn_y_variable}): {prediction}")
+    st.markdown("Note: If the prediction does not change, reload the page; The prediction is easy to overload.")
 
     # Display the actual y-variable from user-selected data
     actual_value = df[df[knn_y_variable] == float(prediction)].head(1)[knn_y_variable].values[0]
@@ -109,6 +111,7 @@ def show():
 
     # Display the KNN training score
     st.write(f"KNN Training Score: {training_score:.2%}")
+    st.markdown("We notice immediately our model score is poor! This is not entirely surprising; many Census tracts are subject to higher error than counties, and the variables we train are not directly connected to commuting patterns. We also consider that the data here is normal when we run our model, using a standard scaling method. Often, this is not entirely true, especially for our walking and cycling metrics. There is some use in this still; the prediction rate is low enought to convey a high amount of general mixing of our classes.")  
 
     # Plotting the data using Plotly Express with user customization
     st.header('Commute Count at the Tract-Level')
@@ -116,7 +119,6 @@ def show():
     graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
                                      ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
                                      key="0002")
-
     # Tract visual
     fig = px.scatter(df,
         x='Median Income',
@@ -127,5 +129,5 @@ def show():
     )
 
     st.plotly_chart(fig)
-
+st.markdown("This scatterplot takes Median Income, and puts it against the count of commutes for all Tracts. The selection bar above allows us to change our commute type of interest. It is very apparent that, as income rises, most areas tend to drive more, while for walking and cycling there is more of a central "mean" to the data, along with many 0's for tracts that don't demonstrate this commute type. The size of the dots are the population; the dots change how blue they are with how impoverished a tract is.")
 show()
