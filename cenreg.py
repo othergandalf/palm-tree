@@ -110,4 +110,4 @@ if st.button("Update Model"):
 
     st.plotly_chart(fig)
 
-   # show()
+    show()
