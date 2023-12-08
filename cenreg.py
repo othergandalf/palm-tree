@@ -60,38 +60,12 @@ def train_knn_model(df, y_variable):
 
     return knn_model, scaler
 
-def visualize_model_output(df, knn_model, scaler, y_variable):
-    # Generate a grid of points for visualization
-    median_income_range = df['Median Income'].min(), df['Median Income'].max()
-    variable_range = df['Time of Commute'].min(), df['Time of Commute'].max()  # You can change this to 'Total Population' if needed
+def make_predictions(knn_model, scaler, user_input):
+    # Scale user input to match the scale of the training data
+    scaled_input = scaler.transform([user_input])
+    prediction = knn_model.predict(scaled_input)
 
-    # Create a grid of points
-    grid_points = pd.DataFrame({
-        'Median Income': list(range(int(median_income_range[0]), int(median_income_range[1]), 1000)),
-        'Time of Commute': list(range(int(variable_range[0]), int(variable_range[1]), 10)),
-    })
-
-    # Scale the grid points using the same scaler used for training
-    scaled_grid_points = scaler.transform(grid_points)
-
-    # Make predictions for the grid points
-    predictions = knn_model.predict(scaled_grid_points)
-
-    # Add the predictions to the grid points dataframe
-    grid_points['Predicted Commute Behavior'] = predictions
-
-    # Plot the model output
-    fig = px.scatter(
-        grid_points,
-        x='Median Income',
-        y='Time of Commute',
-        color='Predicted Commute Behavior',
-        title=f'Model Output: Predicted Commute Behavior ({y_variable})',
-        labels={'Predicted Commute Behavior': 'Commute Behavior'},
-        hover_data=['Median Income', 'Time of Commute']
-    )
-
-    st.plotly_chart(fig)
+    return prediction[0]
 
 def show():
     st.title('KNN Model Page')
@@ -122,7 +96,24 @@ def show():
     prediction = make_predictions(knn_model, scaler, user_input)
     st.write(f"Updated Prediction ({y_variable}): {prediction}")
 
-    # Visualize model output
-    visualize_model_output(df, knn_model, scaler, y_variable)
+    # Plotting the data using Plotly Express with user customization
+    st.header('Commute Count at the Tract-Level')
+    color_variable = 'Poverty Rate'  # Assuming this as a default color variable
+    graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
+                                     ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
+                                     key="0002")
+
+    # Tract visual
+    fig = px.scatter(df,
+        x='Median Income',
+        y=graph_y_variable,
+        color=color_variable,
+        size='Total Population',
+        hover_data=['NAME']
+    )
+
+    st.plotly_chart(fig)
+
+show()
 
 show()
