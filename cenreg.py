@@ -82,7 +82,7 @@ def show():
                                                                      'Walking', 'Cycling',
                                                                      'Other Means',
                                                                      'Worked from Home'],
-                              key="unique_key")
+                              key="key01")
 
     # Train the KNN model and get the scaler based on user-selected y-variable
     knn_model, scaler = train_knn_model(df, y_variable)
