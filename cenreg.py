@@ -100,8 +100,7 @@ if st.button("Update"):
     color_variable = st.selectbox("Select Y-Axis Variable", ['Poverty Rate'])
 
     # Flip the color axis and y-axis variable
-    fig = px.scatter(
-        df,
+    fig = px.scatter(df,
         x='Median Income',
         y=y_variable,  
         color=color_variable,  
