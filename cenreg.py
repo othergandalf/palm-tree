@@ -15,7 +15,7 @@ def fetch_census_data():
         'B01003_001E', 'B19101_001E', 'B17001_002E', 'B08303_001E'
     ]
 
-    # Fetch census data for all MI tracts
+    #census data for all MI tracts
     census_data = c.acs5.state_county_tract(
         fields=fields,
         county_fips="*",
@@ -71,16 +71,14 @@ def make_predictions(knn_model, scaler, user_input):
 
 def show():
     st.title('KNN Model Page')
-
-    # Load data
+    #df
     df = fetch_census_data()
-
     # KNN model training
     st.header('KNN Model Training')
 
     # User selects the y-variable for the commute
     y_variable = st.selectbox("Select Commute Variable for KNN Model", ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
-                              key="0001")
+                              key="selectbox_key")
 
     # Train the KNN model and get the scaler based on the user-selected y-variable
     knn_model, scaler, df_copy = train_knn_model(df, y_variable)
@@ -103,7 +101,7 @@ def show():
     color_variable = 'Poverty Rate'  # Assuming this as a default color variable
     graph_y_variable = st.selectbox("Select Y-Axis Commute Variable in Scatterplot",
                                      ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
-                                     key="0002")
+                                     key="scatterplot_key")
 
     # Tract visual
     fig = px.scatter(df_copy,
