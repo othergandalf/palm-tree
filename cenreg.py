@@ -7,6 +7,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.impute import SimpleImputer
 import plotly.express as px
 
+@st.cache(allow_output_mutation=True)
 def fetch_census_data():
     c = Census("2cad02e99c0bde70c790f7391ffb3363c5e426ef")
     fields = [
@@ -43,6 +44,7 @@ def fetch_census_data():
 
     return df
 
+    @st.cache(allow_output_mutation=True)
 def train_knn_model(df, y_variable):
     selected_features = ['Total Population', 'Median Income', 'Poverty Rate', 'Time of Commute']
     X = df[selected_features]
@@ -59,7 +61,8 @@ def train_knn_model(df, y_variable):
     knn_model.fit(scaled_X, y)
 
     return knn_model, scaler
-
+    
+@st.cache
 def make_predictions(knn_model, scaler, user_input):
     scaled_input = scaler.transform([user_input])
     prediction = knn_model.predict(scaled_input)
