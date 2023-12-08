@@ -68,6 +68,13 @@ def make_predictions(knn_model, scaler, user_input):
     prediction = knn_model.predict(scaled_input)
     return prediction[0]  # Return the first (and only) element of the prediction array
 
+# ... (previous code)
+
+def make_predictions(knn_model, scaler, user_input):
+    scaled_input = scaler.transform([user_input])
+    prediction = knn_model.predict(scaled_input)
+    return prediction[0]  # Return the first (and only) element of the prediction array
+
 def show():
     st.title('KNN Model Page')
 
