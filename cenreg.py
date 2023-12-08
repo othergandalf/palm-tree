@@ -61,10 +61,11 @@ def train_knn_model(df, y_variable):
     return knn_model, scaler
 
 def make_predictions(knn_model, scaler, user_input):
+    # Scale user input to match the scale of the training data
     scaled_input = scaler.transform([user_input])
     prediction = knn_model.predict(scaled_input)
 
-    return prediction[0]  # Return the first (and only) element of the prediction array
+    return prediction[0]
 
 def show():
     st.title('KNN Model Page')
@@ -102,7 +103,6 @@ def show():
                                      ['Driving Alone', 'Carpooling', 'Public Transportation', 'Walking', 'Cycling', 'Other Means', 'Worked from Home'],
                                      key="0002")
 
-
     # Tract visual
     fig = px.scatter(df,
         x='Median Income',
@@ -115,3 +115,4 @@ def show():
     st.plotly_chart(fig)
 
 show()
+
