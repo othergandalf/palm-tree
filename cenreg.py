@@ -1,5 +1,3 @@
-Here is the code: 
-
 import streamlit as st
 import pandas as pd
 from census import Census
