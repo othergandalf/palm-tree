@@ -81,7 +81,7 @@ def show():
                               key="selectbox1")
 
     # Train the KNN model and get the scaler based on user-selected y-variable
-    knn_model, scaler = train_knn_model(df, int(knn_y_variable))
+    knn_model, scaler = train_knn_model(df, knn_y_variable)
 
     # Add widgets for user inputs with unique keys
     total_population_slider = st.slider("Total Population", key="total_population", min_value=0, max_value=10000, value=5000)
